@@ -22,6 +22,8 @@ public class AuthService {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(token);
+
+//            322
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e.getCause());
         }
