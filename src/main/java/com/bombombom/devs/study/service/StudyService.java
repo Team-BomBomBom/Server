@@ -1,9 +1,11 @@
 package com.bombombom.devs.study.service;
 
+import com.bombombom.devs.client.solvedac.SolvedacClient;
+import com.bombombom.devs.client.solvedac.dto.ProblemListResponse;
 import com.bombombom.devs.study.models.AlgorithmStudy;
 import com.bombombom.devs.study.models.BookStudy;
+import com.bombombom.devs.study.models.Episode;
 import com.bombombom.devs.study.models.Study;
-import com.bombombom.devs.study.models.StudyStatus;
 import com.bombombom.devs.study.models.UserStudy;
 import com.bombombom.devs.study.repository.StudyRepository;
 import com.bombombom.devs.study.repository.UserStudyRepository;
@@ -15,6 +17,7 @@ import com.bombombom.devs.study.service.dto.result.BookStudyResult;
 import com.bombombom.devs.study.service.dto.result.StudyResult;
 import com.bombombom.devs.user.models.User;
 import com.bombombom.devs.user.repository.UserRepository;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,7 @@ public class StudyService {
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
     private final UserStudyRepository userStudyRepository;
+    private final SolvedacClient solvedacClient;
 
     @Transactional
     public AlgorithmStudyResult createAlgorithmStudy(
@@ -51,7 +55,7 @@ public class StudyService {
             .penalty(registerAlgorithmStudyCommand.penalty())
             .headCount(registerAlgorithmStudyCommand.headCount())
             .state(registerAlgorithmStudyCommand.state())
-            .user(user)
+            .leader(user)
             .difficultyGraph(db)
             .difficultyString(db)
             .difficultyImpl(db)
@@ -90,7 +94,7 @@ public class StudyService {
             .penalty(registerBookStudyCommand.penalty())
             .headCount(registerBookStudyCommand.headCount())
             .state(registerBookStudyCommand.state())
-            .user(user)
+            .leader(user)
             .bookId(registerBookStudyCommand.bookId())
             .build();
         studyRepository.save(bookStudy);
@@ -121,5 +125,29 @@ public class StudyService {
                 () -> new IllegalStateException("Study Not Found"));
         UserStudy userStudy = study.join(user);
         userStudyRepository.save(userStudy);
+    }
+
+    public AlgorithmStudy getAlgorithmStudyWithUsers(Long studyId) {
+        Study study = studyRepository.findStudyWithUsersById(studyId)
+            .orElseThrow(() -> new IllegalStateException("Study Not Found"));
+        if (study instanceof AlgorithmStudy algorithmStudy) {
+            return algorithmStudy;
+        } else {
+            throw new IllegalStateException("The Study is not Algorithm Study");
+        }
+    }
+
+    public ProblemListResponse getUnSolvedProblemListAndSave(
+        AlgorithmStudy study,
+        Map<String, Integer> problemCountForEachTag
+    ) {
+        ProblemListResponse problemListResponse = solvedacClient.getUnSolvedProblems(
+            study.getBaekjoonIds(), problemCountForEachTag, study.getDifficultySpreadForEachTag());
+        // TODO: save problemListResponse
+        return problemListResponse;
+    }
+
+    public Episode createEpisode(AlgorithmStudy study) {
+
     }
 }
