@@ -1,6 +1,5 @@
 package com.bombombom.devs.study.repository;
 
-import com.bombombom.devs.study.models.Study;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,7 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
         + "join fetch us.user "
         + "where s.id = :id")
     Optional<Study> findStudyWithUsersById(Long id);
-    
+
     @Query(value = "SELECT s FROM Study s "
         + "LEFT JOIN FETCH s.leader "
         + "LEFT JOIN FETCH TREAT(s as BookStudy).book",

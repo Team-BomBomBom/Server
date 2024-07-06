@@ -4,7 +4,6 @@ import static org.quartz.JobBuilder.newJob;
 
 import com.bombombom.devs.algo.models.AlgorithmProblem;
 import com.bombombom.devs.algo.service.AlgorithmProblemService;
-import com.bombombom.devs.study.models.AlgorithmStudy;
 import com.bombombom.devs.study.models.Round;
 import com.bombombom.devs.study.service.StudyService;
 import java.util.List;

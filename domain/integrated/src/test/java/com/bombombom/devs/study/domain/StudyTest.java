@@ -3,8 +3,6 @@ package com.bombombom.devs.study.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.bombombom.devs.study.models.AlgorithmStudy;
-import com.bombombom.devs.study.models.Study;
 import com.bombombom.devs.study.models.StudyStatus;
 import com.bombombom.devs.study.models.UserStudy;
 import com.bombombom.devs.user.models.User;

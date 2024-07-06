@@ -4,9 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.bombombom.devs.algo.models.AlgorithmProblem;
 import com.bombombom.devs.study.models.AlgorithmProblemAssignment;
-import com.bombombom.devs.study.models.AlgorithmStudy;
 import com.bombombom.devs.study.models.Round;
-import com.bombombom.devs.study.models.Study;
 import com.bombombom.devs.study.models.UserStudy;
 import com.bombombom.devs.user.models.User;
 import java.time.LocalDate;

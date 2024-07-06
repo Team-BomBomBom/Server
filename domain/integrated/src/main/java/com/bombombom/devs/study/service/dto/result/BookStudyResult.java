@@ -2,7 +2,6 @@ package com.bombombom.devs.study.service.dto.result;
 
 import com.bombombom.devs.book.service.dto.SearchBooksResult;
 import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
-import com.bombombom.devs.study.models.BookStudy;
 import com.bombombom.devs.study.models.StudyStatus;
 import com.bombombom.devs.study.models.StudyType;
 import com.bombombom.devs.user.service.dto.UserProfileResult;

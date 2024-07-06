@@ -6,9 +6,6 @@ import static org.mockito.Mockito.when;
 
 import com.bombombom.devs.book.models.Book;
 import com.bombombom.devs.book.repository.BookRepository;
-import com.bombombom.devs.study.models.AlgorithmStudy;
-import com.bombombom.devs.study.models.BookStudy;
-import com.bombombom.devs.study.models.Study;
 import com.bombombom.devs.study.models.StudyStatus;
 import com.bombombom.devs.study.repository.StudyRepository;
 import com.bombombom.devs.study.repository.UserStudyRepository;
