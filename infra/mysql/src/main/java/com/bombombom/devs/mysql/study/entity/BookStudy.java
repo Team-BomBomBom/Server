@@ -1,4 +1,4 @@
-package com.bombombom.devs.infra.study;
+package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.book.models.Book;
 import jakarta.persistence.ConstraintMode;

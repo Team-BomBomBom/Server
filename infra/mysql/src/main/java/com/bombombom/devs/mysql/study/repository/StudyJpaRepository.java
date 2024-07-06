@@ -1,12 +1,13 @@
-package com.bombombom.devs.study.repository;
+package com.bombombom.devs.mysql.study.repository;
 
+import com.bombombom.devs.mysql.study.entity.Study;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface StudyRepository extends JpaRepository<Study, Long> {
+public interface StudyJpaRepository extends JpaRepository<Study, Long>, StudyRepository {
 
     @Query("select s from Study s "
         + "join fetch s.userStudies us "

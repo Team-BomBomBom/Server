@@ -1,4 +1,4 @@
-package com.bombombom.devs.infra;
+package com.bombombom.devs.mysql;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

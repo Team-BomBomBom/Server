@@ -1,6 +1,6 @@
-package com.bombombom.devs.infra.study;
+package com.bombombom.devs.mysql.study.entity;
 
-import com.bombombom.devs.infra.BaseEntity;
+import com.bombombom.devs.mysql.BaseEntity;
 import com.bombombom.devs.user.models.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -1,4 +1,4 @@
-package com.bombombom.devs.infra.study;
+package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.algo.models.AlgoTag;
 import jakarta.persistence.Column;
