@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.service.dto.command;
+package com.bombombom.devs.external.study.service.dto.command;
 
 
 import com.bombombom.devs.study.models.StudyStatus;

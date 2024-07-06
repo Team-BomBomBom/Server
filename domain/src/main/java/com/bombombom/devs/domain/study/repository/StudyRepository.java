@@ -10,4 +10,5 @@ public interface StudyRepository {
 
     Page<StudyModel> findAllWithUserAndBook(Pageable pageable);
 
+
 }

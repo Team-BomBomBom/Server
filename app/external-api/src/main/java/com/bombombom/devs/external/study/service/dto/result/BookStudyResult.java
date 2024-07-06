@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.service.dto.result;
+package com.bombombom.devs.external.study.service.dto.result;
 
 import com.bombombom.devs.book.service.dto.SearchBooksResult;
 import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
