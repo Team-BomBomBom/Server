@@ -2,4 +2,7 @@ rootProject.name = 'devs'
 
 include 'domain:integrated'
 include 'app:external-api'
+include 'domain'
+include 'domain:integrated'
+include 'infra:mysql'
 

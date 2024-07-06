@@ -20,9 +20,6 @@ import com.bombombom.devs.external.study.controller.dto.request.RegisterAlgorith
 import com.bombombom.devs.external.study.controller.dto.request.RegisterBookStudyRequest;
 import com.bombombom.devs.external.study.controller.dto.response.StudyPageResponse;
 import com.bombombom.devs.external.study.controller.dto.response.StudyResponse;
-import com.bombombom.devs.study.models.AlgorithmStudy;
-import com.bombombom.devs.study.models.BookStudy;
-import com.bombombom.devs.study.models.Study;
 import com.bombombom.devs.study.models.StudyStatus;
 import com.bombombom.devs.study.models.StudyType;
 import com.bombombom.devs.study.repository.StudyRepository;
