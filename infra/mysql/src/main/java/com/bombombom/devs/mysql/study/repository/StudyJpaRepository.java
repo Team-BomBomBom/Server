@@ -1,5 +1,6 @@
 package com.bombombom.devs.mysql.study.repository;
 
+import com.bombombom.devs.domain.study.repository.StudyRepository;
 import com.bombombom.devs.mysql.study.entity.Study;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
