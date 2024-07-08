@@ -1,6 +1,7 @@
 package com.bombombom.devs.domain.user.model;
 
 import com.bombombom.devs.domain.BaseModel;
+import com.bombombom.devs.domain.user.enums.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,6 @@ public class User extends BaseModel {
 //            .money(0)
 //            .build();
 //    }
-
 
     public void payMoney(Integer money) {
         if (money < 0) {

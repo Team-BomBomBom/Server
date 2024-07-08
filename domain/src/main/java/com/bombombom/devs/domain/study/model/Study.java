@@ -1,6 +1,9 @@
 package com.bombombom.devs.domain.study.model;
 
 import com.bombombom.devs.domain.BaseModel;
+import com.bombombom.devs.domain.study.enums.StudyStatus;
+import com.bombombom.devs.domain.study.enums.StudyType;
+import com.bombombom.devs.domain.study.vo.Round;
 import com.bombombom.devs.domain.user.model.User;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,10 +41,11 @@ public abstract class Study extends BaseModel {
     private User leader;
 
 
-    protected List<User> users;
+    protected List<User> members;
 
     protected List<Round> rounds;
 
+    public abstract StudyType getStudyType();
 
     public boolean canJoin(User user) {
         if (state.equals(StudyStatus.END)) {
@@ -64,7 +68,7 @@ public abstract class Study extends BaseModel {
         this.headCount += headCount;
     }
 
-//    public UserStudy join(User user) {
+    //    public UserStudy join(User user) {
 //        if (state.equals(StudyStatus.END)) {
 //            throw new IllegalStateException("The Study is End");
 //        }
@@ -87,9 +91,13 @@ public abstract class Study extends BaseModel {
 //        return userStudy;
 //    }
 
+
+    public Integer incrementHeadCount() {
+        return headCount++;
+    }
+
     public List<String> getBaekjoonIds() {
-        return userStudies.stream()
-            .map(userStudy -> userStudy.getUser().getBaekjoon())
+        return members.stream().map(user -> user.getBaekjoon())
             .toList();
     }
 
@@ -101,7 +109,6 @@ public abstract class Study extends BaseModel {
 
     private void createRound(int idx) {
         Round round = Round.builder()
-            .study(this)
             .idx(idx)
             .startDate(startDate.plusWeeks(idx))
             .endDate(startDate.plusWeeks(idx + 1))

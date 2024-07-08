@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.models;
+package com.bombombom.devs.domain.study.enums;
 
 import lombok.RequiredArgsConstructor;
 

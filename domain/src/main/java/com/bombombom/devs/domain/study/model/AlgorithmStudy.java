@@ -1,5 +1,6 @@
 package com.bombombom.devs.domain.study.model;
 
+import com.bombombom.devs.domain.study.StudyType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

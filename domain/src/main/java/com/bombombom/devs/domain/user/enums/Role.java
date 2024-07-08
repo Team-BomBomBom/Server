@@ -1,4 +1,4 @@
-package com.bombombom.devs.domain.user.model;
+package com.bombombom.devs.domain.user.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,7 @@
 package com.bombombom.devs.mysql.study.entity;
 
+import com.bombombom.devs.domain.study.StudyStatus;
+import com.bombombom.devs.domain.study.StudyType;
 import com.bombombom.devs.mysql.BaseEntity;
 import com.bombombom.devs.user.models.User;
 import jakarta.persistence.CascadeType;
