@@ -104,10 +104,6 @@ public abstract class Study extends BaseModel {
 //    }
 
 
-    public Integer incrementHeadCount() {
-        return headCount++;
-    }
-
     public List<String> getBaekjoonIds() {
         return members.stream().map(user -> user.getBaekjoon())
             .toList();
@@ -126,5 +122,10 @@ public abstract class Study extends BaseModel {
             .endDate(startDate.plusWeeks(idx + 1))
             .build();
         rounds.add(round);
+    }
+
+    public void join(User user) {
+        members.add(user);
+        headCount++;
     }
 }

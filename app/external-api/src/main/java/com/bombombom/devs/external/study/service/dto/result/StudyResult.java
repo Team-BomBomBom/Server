@@ -5,7 +5,7 @@ import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
 import com.bombombom.devs.domain.study.model.BookStudy;
 import com.bombombom.devs.domain.study.model.Study;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 
 public interface StudyResult {
@@ -38,7 +38,7 @@ public interface StudyResult {
         if (study instanceof AlgorithmStudy algorithmStudy) {
             return AlgorithmStudyResult.fromEntity(algorithmStudy);
         } else if (study instanceof BookStudy bookStudy) {
-            return BookStudyResult.fromEntity(bookStudy);
+            return BookStudyResult.fromModel(bookStudy);
         } else {
             return null;
         }

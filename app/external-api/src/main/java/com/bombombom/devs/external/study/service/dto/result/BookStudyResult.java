@@ -5,7 +5,7 @@ import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.domain.study.model.BookStudy;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 import lombok.Builder;
 
@@ -39,7 +39,7 @@ public record BookStudyResult(
             .reliabilityLimit(bookStudy.getReliabilityLimit())
             .penalty(bookStudy.getPenalty())
             .state(bookStudy.getState())
-            .leader(UserProfileResult.fromEntity(bookStudy.getLeader()))
+            .leader(UserProfileResult.fromModel(bookStudy.getLeader()))
             .bookResult(SearchBooksResult.fromEntity(bookStudy.getBook()))
             .studyType(bookStudy.getStudyType())
             .build();

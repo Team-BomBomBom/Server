@@ -3,7 +3,7 @@ package com.bombombom.devs.external.study.service.dto.result;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 import lombok.Builder;
 
@@ -44,7 +44,7 @@ public record AlgorithmStudyResult(
             .startDate(algorithmStudy.getStartDate())
             .reliabilityLimit(algorithmStudy.getReliabilityLimit())
             .penalty(algorithmStudy.getPenalty())
-            .leader(UserProfileResult.fromEntity(algorithmStudy.getLeader()))
+            .leader(UserProfileResult.fromModel(algorithmStudy.getLeader()))
             .state(algorithmStudy.getState())
             .difficultyDs(algorithmStudy.getDifficultyDs())
             .difficultyGraph(algorithmStudy.getDifficultyGraph())

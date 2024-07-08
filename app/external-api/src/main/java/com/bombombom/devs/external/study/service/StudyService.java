@@ -73,7 +73,7 @@ public class StudyService {
         bookStudy.join(user);
         studyRepository.save(bookStudy);
 
-        return BookStudyResult.fromEntity(bookStudy);
+        return BookStudyResult.fromModel(bookStudy);
     }
 
     @Transactional(readOnly = true)

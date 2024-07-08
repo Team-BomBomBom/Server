@@ -54,7 +54,6 @@ public class Mapper {
             .state(registerBookStudyCommand.state())
             .members(new ArrayList<>())
             .rounds(new ArrayList<>())
-            .book(book)
             .build();
     }
 
