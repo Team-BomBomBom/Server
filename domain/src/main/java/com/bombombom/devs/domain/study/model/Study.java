@@ -18,6 +18,18 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Study extends BaseModel {
 
+    public static final int MAX_CAPACITY = 20;
+
+    public static final int MAX_WEEKS = 52;
+
+    public static final int MAX_RELIABILITY_LIMIT = 100;
+
+    public static final int MAX_PENALTY = 100_000;
+
+    public static final int MAX_DIFFICULTY_LEVEL = 29;
+
+    public static final int MAX_PROBLEM_COUNT = 20;
+
     protected Long id;
 
     protected String name;
