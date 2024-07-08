@@ -1,10 +1,9 @@
-package com.bombombom.devs.user.service;
+package com.bombombom.devs.external.user.service;
 
+import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.external.user.service.dto.SignupCommand;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import com.bombombom.devs.user.exception.ExistUsernameException;
-import com.bombombom.devs.user.models.User;
-import com.bombombom.devs.user.repository.UserRepository;
-import com.bombombom.devs.user.service.dto.SignupCommand;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

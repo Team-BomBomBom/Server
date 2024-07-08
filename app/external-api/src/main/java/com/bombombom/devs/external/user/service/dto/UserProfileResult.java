@@ -1,7 +1,7 @@
-package com.bombombom.devs.user.service.dto;
+package com.bombombom.devs.external.user.service.dto;
 
-import com.bombombom.devs.user.models.Role;
-import com.bombombom.devs.user.models.User;
+import com.bombombom.devs.domain.user.enums.Role;
+import com.bombombom.devs.domain.user.model.User;
 import lombok.Builder;
 
 @Builder
@@ -15,7 +15,7 @@ public record UserProfileResult(
     Role role
 ) {
 
-    public static UserProfileResult fromEntity(User user) {
+    public static UserProfileResult fromModel(User user) {
         return UserProfileResult.builder()
             .id(user.getId())
             .username(user.getUsername())
