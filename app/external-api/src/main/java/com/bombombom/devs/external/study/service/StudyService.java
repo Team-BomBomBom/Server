@@ -16,7 +16,6 @@ import com.bombombom.devs.external.study.service.dto.result.BookStudyResult;
 import com.bombombom.devs.external.study.service.dto.result.StudyResult;
 import com.bombombom.devs.global.util.Clock;
 import com.bombombom.devs.study.exception.NotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +44,12 @@ public class StudyService {
         Long userId,
         RegisterAlgorithmStudyCommand registerAlgorithmStudyCommand) {
 
-        int difficultyGap = registerAlgorithmStudyCommand.difficultyEnd()
-            - registerAlgorithmStudyCommand.difficultyBegin();
-        float db = registerAlgorithmStudyCommand.difficultyBegin();
-
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("User Not Found"));
 
+        AlgorithmStudy algorithmStudy = Mapper.toDomainModel(registerAlgorithmStudyCommand);
+
+        algorithmStudy.setLeader(user);
         algorithmStudy.createRounds();
         algorithmStudy.join(user);
         studyRepository.save(algorithmStudy);
@@ -69,21 +67,8 @@ public class StudyService {
         Book book = bookRepository.findByIsbn(registerBookStudyCommand.isbn())
             .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
-        BookStudy bookStudy = BookStudy.builder()
-            .name(registerBookStudyCommand.name())
-            .introduce(registerBookStudyCommand.introduce())
-            .capacity(registerBookStudyCommand.capacity())
-            .weeks(registerBookStudyCommand.weeks())
-            .startDate(registerBookStudyCommand.startDate())
-            .reliabilityLimit(registerBookStudyCommand.reliabilityLimit())
-            .penalty(registerBookStudyCommand.penalty())
-            .headCount(registerBookStudyCommand.headCount())
-            .state(registerBookStudyCommand.state())
-            .leader(user)
-            .userStudies(new ArrayList<>())
-            .rounds(new ArrayList<>())
-            .book(book)
-            .build();
+        BookStudy bookStudy = Mapper.toDomainModel(registerBookStudyCommand);
+
         bookStudy.createRounds();
         bookStudy.join(user);
         studyRepository.save(bookStudy);

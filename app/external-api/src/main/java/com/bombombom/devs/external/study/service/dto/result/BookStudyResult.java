@@ -4,6 +4,7 @@ import com.bombombom.devs.book.service.dto.SearchBooksResult;
 import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
+import com.bombombom.devs.domain.study.model.BookStudy;
 import com.bombombom.devs.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public record BookStudyResult(
     BookResult bookResult
 ) implements StudyResult {
 
-    public static BookStudyResult fromEntity(BookStudy bookStudy) {
+    public static BookStudyResult fromModel(BookStudy bookStudy) {
 
         return BookStudyResult.builder()
             .id(bookStudy.getId())

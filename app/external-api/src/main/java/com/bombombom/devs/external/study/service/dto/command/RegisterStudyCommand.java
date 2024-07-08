@@ -1,6 +1,6 @@
 package com.bombombom.devs.external.study.service.dto.command;
 
-import com.bombombom.devs.study.models.StudyStatus;
+import com.bombombom.devs.domain.study.enums.StudyStatus;
 import java.time.LocalDate;
 
 public interface RegisterStudyCommand {

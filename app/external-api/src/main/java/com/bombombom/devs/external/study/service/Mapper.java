@@ -8,8 +8,12 @@ import java.util.ArrayList;
 
 public class Mapper {
 
-    public AlgorithmStudy toDomainModel(
+    public static AlgorithmStudy toModel(
         RegisterAlgorithmStudyCommand registerAlgorithmStudyCommand) {
+        int difficultyGap = registerAlgorithmStudyCommand.difficultyEnd()
+            - registerAlgorithmStudyCommand.difficultyBegin();
+        float db = registerAlgorithmStudyCommand.difficultyBegin();
+
         return AlgorithmStudy.builder()
             .name(registerAlgorithmStudyCommand.name())
             .introduce(registerAlgorithmStudyCommand.introduce())
@@ -20,7 +24,6 @@ public class Mapper {
             .penalty(registerAlgorithmStudyCommand.penalty())
             .headCount(registerAlgorithmStudyCommand.headCount())
             .state(registerAlgorithmStudyCommand.state())
-            .leader(user)
             .difficultyGraph(db)
             .difficultyString(db)
             .difficultyImpl(db)
@@ -32,12 +35,12 @@ public class Mapper {
             .difficultyGreedy(db)
             .difficultyGap(difficultyGap)
             .problemCount(registerAlgorithmStudyCommand.problemCount())
-            .userStudies(new ArrayList<>())
+            .members(new ArrayList<>())
             .rounds(new ArrayList<>())
             .build();
     }
 
-    public BookStudy toDomainModel(
+    public static BookStudy toModel(
         RegisterBookStudyCommand registerBookStudyCommand) {
         return BookStudy.builder()
             .name(registerBookStudyCommand.name())
@@ -49,8 +52,7 @@ public class Mapper {
             .penalty(registerBookStudyCommand.penalty())
             .headCount(registerBookStudyCommand.headCount())
             .state(registerBookStudyCommand.state())
-            .leader(user)
-            .userStudies(new ArrayList<>())
+            .members(new ArrayList<>())
             .rounds(new ArrayList<>())
             .book(book)
             .build();

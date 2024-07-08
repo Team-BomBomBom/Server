@@ -1,9 +1,9 @@
 package com.bombombom.devs.external.study.controller.dto.response;
 
+import com.bombombom.devs.domain.study.enums.StudyStatus;
+import com.bombombom.devs.domain.study.enums.StudyType;
+import com.bombombom.devs.external.study.service.dto.result.AlgorithmStudyResult;
 import com.bombombom.devs.external.user.controller.dto.UserProfileResponse;
-import com.bombombom.devs.study.models.StudyStatus;
-import com.bombombom.devs.study.models.StudyType;
-import com.bombombom.devs.study.service.dto.result.AlgorithmStudyResult;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import lombok.Builder;
