@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AlgorithmStudyModel extends StudyModel {
+public class AlgorithmStudy extends Study {
 
     private Float difficultyMath;
 

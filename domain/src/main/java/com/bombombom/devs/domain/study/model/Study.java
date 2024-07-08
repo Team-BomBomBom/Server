@@ -1,12 +1,7 @@
 package com.bombombom.devs.domain.study.model;
 
-import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.user.models.User;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import com.bombombom.devs.domain.BaseModel;
+import com.bombombom.devs.domain.user.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AccessLevel;
@@ -14,14 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Entity
+
 @Getter
 @SuperBuilder
-@Table(name = "study")
-@DiscriminatorColumn(name = "STUDY_TYPE")
-@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class StudyModel extends BaseEntity {
+public abstract class Study extends BaseModel {
 
     protected Long id;
 
@@ -35,8 +27,6 @@ public abstract class StudyModel extends BaseEntity {
 
     protected Integer weeks;
 
-    private User leader;
-
     protected LocalDate startDate;
 
     protected Integer reliabilityLimit;
@@ -45,11 +35,34 @@ public abstract class StudyModel extends BaseEntity {
 
     protected StudyStatus state;
 
-    protected List<UserStudy> userStudies;
+    private User leader;
+
+
+    protected List<User> users;
 
     protected List<Round> rounds;
 
-    public abstract StudyType getStudyType();
+
+    public boolean canJoin(User user) {
+        if (state.equals(StudyStatus.END)) {
+            throw new IllegalStateException("The Study is End");
+        }
+        if (headCount >= capacity) {
+            throw new IllegalStateException("The Study is full");
+        }
+        if (reliabilityLimit != null && user.getReliability() < reliabilityLimit) {
+            throw new IllegalStateException("User reliability is low");
+        }
+        return true;
+    }
+
+    public Integer calculateDeposit() {
+        return penalty * weeks;
+    }
+
+    public void addHeadCount(Integer headCount) {
+        this.headCount += headCount;
+    }
 
 //    public UserStudy join(User user) {
 //        if (state.equals(StudyStatus.END)) {
@@ -61,9 +74,14 @@ public abstract class StudyModel extends BaseEntity {
 //        if (reliabilityLimit != null && user.getReliability() < reliabilityLimit) {
 //            throw new IllegalStateException("User reliability is low");
 //        }
+    // 여기까지 canJoinStudy
 //        user.payMoney(penalty * weeks);
+    // penalty*weeks는 deposit = calculateDeposit(Study);
+    // user.takeMoney(deposit)는 모델 상태를 변경하는 거니 존재하는게 맞음.
 //        headCount++;
+    // study.addHeadCount(1);
 //        UserStudy userStudy = UserStudy.of(user, this, penalty * weeks);
+    // UserStudyModel = userStudyModel.of(user, study, deposit);
 //        userStudies.add(userStudy);
 //
 //        return userStudy;

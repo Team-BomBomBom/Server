@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BookStudyModel extends StudyModel {
+public class BookStudy extends Study {
 
     private Book book;
 
