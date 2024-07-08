@@ -22,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "book_study")
 @DiscriminatorValue(StudyType.Values.BOOK)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BookStudy extends Study {
+public class BookStudyEntity extends StudyEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

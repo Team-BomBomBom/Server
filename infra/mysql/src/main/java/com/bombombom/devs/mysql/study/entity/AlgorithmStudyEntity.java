@@ -18,7 +18,7 @@ import org.springframework.data.util.Pair;
 @Table(name = "algorithm_study")
 @DiscriminatorValue(StudyType.Values.ALGORITHM)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AlgorithmStudy extends Study {
+public class AlgorithmStudyEntity extends StudyEntity {
 
     @Column(name = "difficulty_math")
     private Float difficultyMath;

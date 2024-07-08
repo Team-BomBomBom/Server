@@ -8,6 +8,7 @@ import com.bombombom.devs.domain.study.model.BookStudy;
 import com.bombombom.devs.domain.study.model.Study;
 import com.bombombom.devs.domain.study.repository.StudyRepository;
 import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.domain.user.repository.UserRepository;
 import com.bombombom.devs.external.study.service.dto.command.JoinStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.RegisterAlgorithmStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.RegisterBookStudyCommand;
@@ -47,11 +48,12 @@ public class StudyService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        AlgorithmStudy algorithmStudy = Mapper.toDomainModel(registerAlgorithmStudyCommand);
+        AlgorithmStudy algorithmStudy = Mapper.toModel(registerAlgorithmStudyCommand);
 
         algorithmStudy.setLeader(user);
         algorithmStudy.createRounds();
         algorithmStudy.join(user);
+
         studyRepository.save(algorithmStudy);
 
         return AlgorithmStudyResult.fromEntity(algorithmStudy);
@@ -67,10 +69,12 @@ public class StudyService {
         Book book = bookRepository.findByIsbn(registerBookStudyCommand.isbn())
             .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
-        BookStudy bookStudy = Mapper.toDomainModel(registerBookStudyCommand);
+        BookStudy bookStudy = Mapper.toModel(registerBookStudyCommand);
 
-        bookStudy.createRounds();
+        bookStudy.setLeader(user);
         bookStudy.join(user);
+        bookStudy.createRounds();
+        
         studyRepository.save(bookStudy);
 
         return BookStudyResult.fromModel(bookStudy);
@@ -86,16 +90,19 @@ public class StudyService {
 
     @Transactional
     public void joinStudy(Long userId, JoinStudyCommand joinStudyCommand) {
-        if (userStudyRepository.existsByUserIdAndStudyId(userId, joinStudyCommand.studyId())) {
-            throw new IllegalStateException("Already Joined Study");
-        }
+        //TODO 로킹 필요
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalStateException("User Not Found"));
-        Study study = studyRepository.findById(joinStudyCommand.studyId())
+
+        Study study = studyRepository.findStudyWithUsersById(joinStudyCommand.studyId())
             .orElseThrow(
                 () -> new IllegalStateException("Study Not Found"));
-        UserStudy userStudy = study.join(user);
-        userStudyRepository.save(userStudy);
+
+        if (!study.canJoin(user)) {
+            return;
+        }
+
+        studyRepository.save(study);
     }
 
     @Transactional

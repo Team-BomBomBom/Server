@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 
@@ -50,8 +51,8 @@ public abstract class Study extends BaseModel {
 
     protected StudyStatus state;
 
+    @Setter
     private User leader;
-
 
     protected List<User> members;
 
@@ -60,6 +61,10 @@ public abstract class Study extends BaseModel {
     public abstract StudyType getStudyType();
 
     public boolean canJoin(User user) {
+        
+        if (members.stream().anyMatch(member -> member.equals(user))) {
+            throw new IllegalStateException("Already Joined Study");
+        }
         if (state.equals(StudyStatus.END)) {
             throw new IllegalStateException("The Study is End");
         }
@@ -76,36 +81,9 @@ public abstract class Study extends BaseModel {
         return penalty * weeks;
     }
 
-    public void addHeadCount(Integer headCount) {
-        this.headCount += headCount;
-    }
-
-    //    public UserStudy join(User user) {
-//        if (state.equals(StudyStatus.END)) {
-//            throw new IllegalStateException("The Study is End");
-//        }
-//        if (headCount >= capacity) {
-//            throw new IllegalStateException("The Study is full");
-//        }
-//        if (reliabilityLimit != null && user.getReliability() < reliabilityLimit) {
-//            throw new IllegalStateException("User reliability is low");
-//        }
-    // 여기까지 canJoinStudy
-//        user.payMoney(penalty * weeks);
-    // penalty*weeks는 deposit = calculateDeposit(Study);
-    // user.takeMoney(deposit)는 모델 상태를 변경하는 거니 존재하는게 맞음.
-//        headCount++;
-    // study.addHeadCount(1);
-//        UserStudy userStudy = UserStudy.of(user, this, penalty * weeks);
-    // UserStudyModel = userStudyModel.of(user, study, deposit);
-//        userStudies.add(userStudy);
-//
-//        return userStudy;
-//    }
-
 
     public List<String> getBaekjoonIds() {
-        return members.stream().map(user -> user.getBaekjoon())
+        return members.stream().map(User::getBaekjoon)
             .toList();
     }
 

@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseModel {
 
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 }

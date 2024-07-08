@@ -36,7 +36,7 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorColumn(name = "STUDY_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Study extends BaseEntity {
+public abstract class StudyEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -38,12 +38,12 @@ public class UserStudy extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id", nullable = false,
         foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private Study study;
+    private StudyEntity study;
 
     @Column(name = "security_deposit")
     private Integer securityDeposit;
 
-    public static UserStudy of(User user, Study study, Integer securityDeposit) {
+    public static UserStudy of(User user, StudyEntity study, Integer securityDeposit) {
         return UserStudy.builder()
             .user(user)
             .study(study)

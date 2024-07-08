@@ -9,6 +9,8 @@ public interface StudyRepository {
 
     Optional<Study> findStudyWithUsersById(Long id);
 
+    Study save(Study study);
+
     Page<Study> findAllWithUserAndBook(Pageable pageable);
 
 }
