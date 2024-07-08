@@ -1,6 +1,6 @@
 package com.bombombom.devs.mysql.study.repository;
 
-import com.bombombom.devs.study.models.Round;
+import com.bombombom.devs.mysql.study.entity.Round;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

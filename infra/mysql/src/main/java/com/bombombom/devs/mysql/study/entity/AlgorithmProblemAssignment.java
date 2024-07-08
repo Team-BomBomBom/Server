@@ -1,8 +1,7 @@
 package com.bombombom.devs.mysql.study.entity;
 
-import com.bombombom.devs.algo.models.AlgorithmProblem;
-import com.bombombom.devs.global.audit.BaseEntity;
-import com.bombombom.devs.user.models.User;
+import com.bombombom.devs.mysql.BaseEntity;
+import com.bombombom.devs.mysql.user.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;

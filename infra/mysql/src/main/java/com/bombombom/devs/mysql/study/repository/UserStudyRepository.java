@@ -1,6 +1,6 @@
 package com.bombombom.devs.mysql.study.repository;
 
-import com.bombombom.devs.study.models.UserStudy;
+import com.bombombom.devs.mysql.study.entity.UserStudy;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.bombombom.devs.mysql.study.entity;
 
-import com.bombombom.devs.algo.models.AlgoTag;
+import com.bombombom.devs.domain.study.enums.StudyType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

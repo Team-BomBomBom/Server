@@ -1,6 +1,6 @@
 package com.bombombom.devs.mysql.study.entity;
 
-import com.bombombom.devs.book.models.Book;
+import com.bombombom.devs.domain.study.enums.StudyType;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -9,6 +9,7 @@ import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.awt.print.Book;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

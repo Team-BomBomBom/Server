@@ -1,10 +1,10 @@
 package com.bombombom.devs.mysql.user.repository;
 
-import com.bombombom.devs.user.models.User;
+import com.bombombom.devs.mysql.user.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserJpaRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUsername(String username);
 
