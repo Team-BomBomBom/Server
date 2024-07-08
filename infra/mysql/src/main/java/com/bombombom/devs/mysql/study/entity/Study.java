@@ -3,6 +3,7 @@ package com.bombombom.devs.mysql.study.entity;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.mysql.BaseEntity;
+import com.bombombom.devs.mysql.user.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;

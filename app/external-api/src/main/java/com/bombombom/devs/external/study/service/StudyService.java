@@ -1,13 +1,13 @@
 package com.bombombom.devs.external.study.service;
 
 import com.bombombom.devs.algo.models.AlgorithmProblem;
-import com.bombombom.devs.algo.models.AlgorithmProblemConverter;
-import com.bombombom.devs.algo.repository.AlgorithmProblemRepository;
 import com.bombombom.devs.book.models.Book;
-import com.bombombom.devs.book.repository.BookRepository;
-import com.bombombom.devs.client.solvedac.SolvedacClient;
 import com.bombombom.devs.client.solvedac.dto.ProblemListResponse;
+import com.bombombom.devs.domain.study.model.AlgorithmStudy;
+import com.bombombom.devs.domain.study.model.BookStudy;
+import com.bombombom.devs.domain.study.model.Study;
 import com.bombombom.devs.domain.study.repository.StudyRepository;
+import com.bombombom.devs.domain.user.model.User;
 import com.bombombom.devs.external.study.service.dto.command.JoinStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.RegisterAlgorithmStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.RegisterBookStudyCommand;
@@ -16,14 +16,6 @@ import com.bombombom.devs.external.study.service.dto.result.BookStudyResult;
 import com.bombombom.devs.external.study.service.dto.result.StudyResult;
 import com.bombombom.devs.global.util.Clock;
 import com.bombombom.devs.study.exception.NotFoundException;
-import com.bombombom.devs.study.models.AlgorithmProblemAssignment;
-import com.bombombom.devs.study.models.Round;
-import com.bombombom.devs.study.models.UserStudy;
-import com.bombombom.devs.study.repository.AlgorithmProblemAssignmentRepository;
-import com.bombombom.devs.study.repository.RoundRepository;
-import com.bombombom.devs.study.repository.UserStudyRepository;
-import com.bombombom.devs.user.models.User;
-import com.bombombom.devs.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +32,13 @@ public class StudyService {
     private final Clock clock;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
-    private final UserStudyRepository userStudyRepository;
-    private final SolvedacClient solvedacClient;
-    private final RoundRepository roundRepository;
-    private final AlgorithmProblemRepository algoProblemRepository;
-    private final AlgorithmProblemAssignmentRepository algorithmProblemAssignmentRepository;
-    private final AlgorithmProblemConverter algorithmProblemConverter;
+//    private final BookRepository bookRepository;
+//    private final UserStudyRepository userStudyRepository;
+//    private final SolvedacClient solvedacClient;
+//    private final RoundRepository roundRepository;
+//    private final AlgorithmProblemRepository algoProblemRepository;
+//    private final AlgorithmProblemAssignmentRepository algorithmProblemAssignmentRepository;
+//    private final AlgorithmProblemConverter algorithmProblemConverter;
 
     @Transactional
     public AlgorithmStudyResult createAlgorithmStudy(
@@ -60,31 +52,6 @@ public class StudyService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        AlgorithmStudy algorithmStudy = AlgorithmStudy.builder()
-            .name(registerAlgorithmStudyCommand.name())
-            .introduce(registerAlgorithmStudyCommand.introduce())
-            .capacity(registerAlgorithmStudyCommand.capacity())
-            .weeks(registerAlgorithmStudyCommand.weeks())
-            .startDate(registerAlgorithmStudyCommand.startDate())
-            .reliabilityLimit(registerAlgorithmStudyCommand.reliabilityLimit())
-            .penalty(registerAlgorithmStudyCommand.penalty())
-            .headCount(registerAlgorithmStudyCommand.headCount())
-            .state(registerAlgorithmStudyCommand.state())
-            .leader(user)
-            .difficultyGraph(db)
-            .difficultyString(db)
-            .difficultyImpl(db)
-            .difficultyMath(db)
-            .difficultyDp(db)
-            .difficultyGraph(db)
-            .difficultyDs(db)
-            .difficultyGeometry(db)
-            .difficultyGreedy(db)
-            .difficultyGap(difficultyGap)
-            .problemCount(registerAlgorithmStudyCommand.problemCount())
-            .userStudies(new ArrayList<>())
-            .rounds(new ArrayList<>())
-            .build();
         algorithmStudy.createRounds();
         algorithmStudy.join(user);
         studyRepository.save(algorithmStudy);

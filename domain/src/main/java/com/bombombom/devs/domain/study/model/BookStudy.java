@@ -1,7 +1,6 @@
 package com.bombombom.devs.domain.study.model;
 
-import com.bombombom.devs.book.models.Book;
-import com.bombombom.devs.domain.study.StudyType;
+import com.bombombom.devs.domain.study.enums.StudyType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

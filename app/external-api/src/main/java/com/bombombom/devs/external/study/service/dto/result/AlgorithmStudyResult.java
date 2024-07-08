@@ -1,7 +1,7 @@
 package com.bombombom.devs.external.study.service.dto.result;
 
-import com.bombombom.devs.study.models.StudyStatus;
-import com.bombombom.devs.study.models.StudyType;
+import com.bombombom.devs.domain.study.enums.StudyStatus;
+import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 import lombok.Builder;
