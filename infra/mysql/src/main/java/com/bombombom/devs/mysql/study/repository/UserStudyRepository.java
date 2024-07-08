@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.repository;
+package com.bombombom.devs.mysql.study.repository;
 
 import com.bombombom.devs.study.models.UserStudy;
 import java.util.List;

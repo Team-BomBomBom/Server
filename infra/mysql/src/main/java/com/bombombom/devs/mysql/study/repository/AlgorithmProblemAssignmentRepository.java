@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.repository;
+package com.bombombom.devs.mysql.study.repository;
 
 import com.bombombom.devs.study.models.AlgorithmProblemAssignment;
 import org.springframework.data.jpa.repository.JpaRepository;

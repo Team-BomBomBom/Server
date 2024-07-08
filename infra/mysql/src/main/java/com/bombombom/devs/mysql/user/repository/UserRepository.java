@@ -1,4 +1,4 @@
-package com.bombombom.devs.user.repository;
+package com.bombombom.devs.mysql.user.repository;
 
 import com.bombombom.devs.user.models.User;
 import java.util.Optional;

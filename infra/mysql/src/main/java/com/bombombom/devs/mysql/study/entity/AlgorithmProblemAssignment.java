@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.models;
+package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.algo.models.AlgorithmProblem;
 import com.bombombom.devs.global.audit.BaseEntity;
