@@ -84,24 +84,6 @@ public abstract class StudyEntity extends BaseEntity {
 
     public abstract StudyType getStudyType();
 
-    public UserStudy join(User user) {
-        if (state.equals(StudyStatus.END)) {
-            throw new IllegalStateException("The Study is End");
-        }
-        if (headCount >= capacity) {
-            throw new IllegalStateException("The Study is full");
-        }
-        if (reliabilityLimit != null && user.getReliability() < reliabilityLimit) {
-            throw new IllegalStateException("User reliability is low");
-        }
-        user.payMoney(penalty * weeks);
-        headCount++;
-        UserStudy userStudy = UserStudy.of(user, this, penalty * weeks);
-        userStudies.add(userStudy);
-
-        return userStudy;
-    }
-
     public List<String> getBaekjoonIds() {
         return userStudies.stream()
             .map(userStudy -> userStudy.getUser().getBaekjoon())

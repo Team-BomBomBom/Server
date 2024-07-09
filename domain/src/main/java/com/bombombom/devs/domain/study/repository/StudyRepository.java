@@ -1,7 +1,7 @@
 package com.bombombom.devs.domain.study.repository;
 
+import com.bombombom.devs.common.Page;
 import com.bombombom.devs.common.Pageable;
-import com.bombombom.devs.domain.study.model.Page;
 import com.bombombom.devs.domain.study.model.Study;
 import java.util.Optional;
 

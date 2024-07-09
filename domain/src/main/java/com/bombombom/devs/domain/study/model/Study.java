@@ -1,6 +1,5 @@
 package com.bombombom.devs.domain.study.model;
 
-import com.bombombom.devs.domain.BaseModel;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.domain.study.vo.Round;
@@ -17,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Study extends BaseModel {
+public abstract class Study {
 
     public static final int MAX_CAPACITY = 20;
 
@@ -61,7 +60,7 @@ public abstract class Study extends BaseModel {
     public abstract StudyType getStudyType();
 
     public boolean canJoin(User user) {
-        
+
         if (members.stream().anyMatch(member -> member.equals(user))) {
             throw new IllegalStateException("Already Joined Study");
         }

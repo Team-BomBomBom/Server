@@ -1,6 +1,5 @@
 package com.bombombom.devs.domain.user.model;
 
-import com.bombombom.devs.domain.BaseModel;
 import com.bombombom.devs.domain.user.enums.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseModel {
+public class User {
 
     private Long id;
 
@@ -26,16 +25,16 @@ public class User extends BaseModel {
     private Integer reliability;
     private Integer money;
 
-//    public static User signup(String username, String password, String introduce) {
-//        return User.builder()
-//            .username(username)
-//            .password(password)
-//            .introduce(introduce)
-//            .role(Role.USER)
-//            .reliability(0)
-//            .money(0)
-//            .build();
-//    }
+    public static User signup(String username, String password, String introduce) {
+        return User.builder()
+            .username(username)
+            .password(password)
+            .introduce(introduce)
+            .role(Role.USER)
+            .reliability(0)
+            .money(0)
+            .build();
+    }
 
     public void payMoney(Integer money) {
         if (money < 0) {
