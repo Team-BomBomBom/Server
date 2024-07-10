@@ -36,7 +36,7 @@ public interface StudyResult {
 
     static StudyResult fromEntity(Study study) {
         if (study instanceof AlgorithmStudy algorithmStudy) {
-            return AlgorithmStudyResult.fromEntity(algorithmStudy);
+            return AlgorithmStudyResult.fromModel(algorithmStudy);
         } else if (study instanceof BookStudy bookStudy) {
             return BookStudyResult.fromModel(bookStudy);
         } else {

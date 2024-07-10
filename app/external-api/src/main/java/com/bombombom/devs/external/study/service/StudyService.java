@@ -1,7 +1,7 @@
 package com.bombombom.devs.external.study.service;
 
 import com.bombombom.devs.book.models.Book;
-import com.bombombom.devs.book.repository.BookRepository;
+import com.bombombom.devs.book.service.BookService;
 import com.bombombom.devs.common.Page;
 import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
@@ -30,7 +30,7 @@ public class StudyService {
     private final Clock clock;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
     @Transactional
     public AlgorithmStudyResult createAlgorithmStudy(
@@ -55,11 +55,12 @@ public class StudyService {
     public BookStudyResult createBookStudy(
         Long userId, RegisterBookStudyCommand registerBookStudyCommand) {
 
+        //user 서비스 API 콜
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("User Not Found"));
 
         //Book 서비스에 API 콜 발생
-        Book book = bookRepository.findByIsbn(registerBookStudyCommand.isbn())
+        Book book = bookService.findBookByIsbn(registerBookStudyCommand.isbn())
             .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
         BookStudy bookStudy = Mapper.toModel(registerBookStudyCommand);
@@ -70,7 +71,6 @@ public class StudyService {
         bookStudy.createRounds();
 
         studyRepository.save(bookStudy);
-
         return BookStudyResult.fromModel(bookStudy);
     }
 

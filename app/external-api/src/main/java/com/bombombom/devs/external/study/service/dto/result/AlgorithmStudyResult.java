@@ -32,7 +32,7 @@ public record AlgorithmStudyResult(
     Integer difficultyGap,
     Integer problemCount) implements StudyResult {
 
-    public static AlgorithmStudyResult fromEntity(AlgorithmStudy algorithmStudy) {
+    public static AlgorithmStudyResult fromModel(AlgorithmStudy algorithmStudy) {
 
         return AlgorithmStudyResult.builder()
             .id(algorithmStudy.getId())

@@ -15,6 +15,7 @@ import com.bombombom.devs.book.service.dto.SearchBookQuery;
 import com.bombombom.devs.book.service.dto.SearchBooksResult;
 import com.bombombom.devs.client.naver.NaverClient;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,10 @@ public class BookService {
 
     public void indexBooks(List<IndexBookCommand> indexBookCommands) {
         bookElasticsearchCustomRepository.upsertAll(indexBookCommands);
+    }
+
+
+    public Optional<Book> findBookByIsbn(Long isbn) {
+        return bookRepository.findByIsbn(isbn);
     }
 }

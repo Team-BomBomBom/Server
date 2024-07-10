@@ -65,9 +65,7 @@ public class AlgorithmStudy extends Study {
 
     public void assignProblemsToOngoingRound(LocalDate date, List<Long> problemIds) {
         Round round = getOngoingRound(date);
-        for (Long problemId : problemIds) {
-            round.assignProblem(problemId);
-        }
+        round.assignProblems(problemIds);
     }
 
 }
