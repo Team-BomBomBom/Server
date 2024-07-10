@@ -99,4 +99,10 @@ public abstract class Study {
         memberIds.add(userId);
         headCount++;
     }
+
+    public Round getOngoingRound(LocalDate date) {
+        return rounds.stream().filter(round -> round.isWithinRange(date)).findFirst()
+            .orElseThrow(() -> new IllegalStateException("Study is not ongoing"));
+    }
+
 }

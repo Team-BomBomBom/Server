@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface StudyRepository {
 
-    Optional<Study> findWithUsersById(Long id);
+    Optional<Study> findStudyWithUsersById(Long id);
 
     Study save(Study study);
 
     Page<Study> findAll(Pageable pageable);
 
-    List<Study> findHavingRoundToStart(LocalDate localDate);
+    List<Study> findStudyHavingRoundToStartWithUsers(LocalDate localDate);
 }

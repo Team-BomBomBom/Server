@@ -20,7 +20,7 @@ public class StudyEntityRepository implements StudyRepository {
 
 
     @Override
-    public Optional<Study> findWithUsersById(Long id) {
+    public Optional<Study> findStudyWithUsersById(Long id) {
         return studyJpaRepository.findWithUsersById(id).map(Mapper::toModel);
     }
 
@@ -46,7 +46,7 @@ public class StudyEntityRepository implements StudyRepository {
     }
 
     @Override
-    public List<Study> findHavingRoundToStart(LocalDate localDate) {
+    public List<Study> findStudyHavingRoundToStartWithUsers(LocalDate localDate) {
         List<Round> rounds = roundRepository.findRoundsWithStudyByStartDate(localDate);
 
         return rounds.stream().map(Round::getStudy).map(Mapper::toModel).toList();

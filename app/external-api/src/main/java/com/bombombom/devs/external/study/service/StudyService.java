@@ -91,7 +91,7 @@ public class StudyService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalStateException("User Not Found"));
 
-        Study study = studyRepository.findWithUsersById(joinStudyCommand.studyId())
+        Study study = studyRepository.findStudyWithUsersById(joinStudyCommand.studyId())
             .orElseThrow(
                 () -> new IllegalStateException("Study Not Found"));
 
@@ -105,7 +105,7 @@ public class StudyService {
 
     @Transactional
     public List<Study> findHavingRoundToStart() {
-        return studyRepository.findHavingRoundToStart(clock.today());
+        return studyRepository.findStudyHavingRoundToStartWithUsers(clock.today());
     }
 
 }

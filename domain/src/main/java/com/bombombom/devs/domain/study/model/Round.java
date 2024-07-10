@@ -28,7 +28,11 @@ public class Round {
             .solveHistories(new ArrayList<>())
             .build();
         assignment.createSolveHistories();
-        
+
         return assignment;
+    }
+
+    boolean isWithinRange(LocalDate date) {
+        return !(date.isBefore(startDate) || date.isAfter(endDate));
     }
 }

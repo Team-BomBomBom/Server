@@ -2,6 +2,8 @@ package com.bombombom.devs.domain.study.model;
 
 import com.bombombom.devs.common.AlgoTag;
 import com.bombombom.devs.domain.study.enums.StudyType;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -60,5 +62,12 @@ public class AlgorithmStudy extends Study {
         return Pair.create(spreadLeft, spreadRight);
     }
 
+
+    public void assignProblemsToOngoingRound(LocalDate date, List<Long> problemIds) {
+        Round round = getOngoingRound(date);
+        for (Long problemId : problemIds) {
+            round.assignProblem(problemId);
+        }
+    }
 
 }

@@ -78,7 +78,7 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
 
         //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
         List<Study> studies = studyService.findHavingRoundToStart();
-        
+
         studies.forEach(study -> {
 
             if (isInterrupted) {
@@ -99,8 +99,8 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
                         algorithmStudy.getDifficultySpreadForEachTag());
 
                 //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
-                // call studyService.assignProblems(study.getId(), unsolvedProblems.stream().map(AlgorithmProblem::getId))
-                study.assignProblems(unsolvedProblems.stream().map(AlgorithmProblem::getId));
+                algorithmStudy.assignProblems(
+                    unsolvedProblems.stream().map(AlgorithmProblem::getId).toList());
                 studyRepository.save(study);
             }
         });

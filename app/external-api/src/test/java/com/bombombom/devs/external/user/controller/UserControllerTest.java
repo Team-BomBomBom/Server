@@ -13,6 +13,7 @@ import com.bombombom.devs.domain.user.enums.Role;
 import com.bombombom.devs.external.config.TestUserDetailsServiceConfig;
 import com.bombombom.devs.external.global.security.JwtUtils;
 import com.bombombom.devs.external.user.controller.dto.SignupRequest;
+import com.bombombom.devs.external.user.service.UserService;
 import com.bombombom.devs.external.user.service.dto.SignupCommand;
 import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import com.bombombom.devs.global.util.SystemClock;
