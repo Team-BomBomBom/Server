@@ -1,7 +1,7 @@
 package com.bombombom.devs.external.global.security;
 
-import com.bombombom.devs.user.models.User;
-import com.bombombom.devs.user.repository.UserRepository;
+import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;

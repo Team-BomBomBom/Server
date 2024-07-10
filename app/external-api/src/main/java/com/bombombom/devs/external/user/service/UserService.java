@@ -1,6 +1,7 @@
 package com.bombombom.devs.external.user.service;
 
 import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.domain.user.repository.UserRepository;
 import com.bombombom.devs.external.user.service.dto.SignupCommand;
 import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import com.bombombom.devs.user.exception.ExistUsernameException;
@@ -28,6 +29,6 @@ public class UserService {
     public UserProfileResult findById(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalStateException("User Not Found"));
-        return UserProfileResult.fromEntity(user);
+        return UserProfileResult.fromModel(user);
     }
 }

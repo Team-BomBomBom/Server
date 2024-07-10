@@ -1,29 +1,17 @@
 package com.bombombom.devs.mysql.user;
 
-import com.bombombom.devs.domain.study.model.Study;
-import com.bombombom.devs.mysql.study.entity.AlgorithmStudyEntity;
-import com.bombombom.devs.mysql.study.entity.BookStudyEntity;
-import com.bombombom.devs.mysql.study.entity.StudyEntity;
+import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 
 public class Mapper {
 
-    public static Study toModel(StudyEntity studyEntity) {
+    public static User toModel(UserEntity userEntity) {
 
-        switch (studyEntity.getStudyType()) {
-            default -> throw new IllegalStateException("Study Type is incorrect");
-        }
+        return User.builder().build();
     }
 
-    public static StudyEntity toEntity(Study study) {
-        switch (study.getStudyType()) {
-            case BOOK -> {
-                return BookStudyEntity.builder().build();
-            }
-            case ALGORITHM -> {
-                return AlgorithmStudyEntity.builder().build();
-            }
-            default -> throw new IllegalStateException("Study Type is incorrect");
+    public static UserEntity toEntity(User user) {
 
-        }
+        return UserEntity.builder().build();
     }
 }

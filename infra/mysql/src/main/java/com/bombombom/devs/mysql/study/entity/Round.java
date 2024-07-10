@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -46,27 +45,4 @@ public class Round extends BaseEntity {
     @OneToMany(mappedBy = "round")
     private List<AlgorithmProblemAssignment> assignments;
 
-    public List<AlgorithmProblemAssignment> assignProblems(
-        List<AlgorithmProblem> unSolvedProblems) {
-        List<AlgorithmProblemAssignment> newAssignments = new ArrayList<>();
-        for (AlgorithmProblem problem : unSolvedProblems) {
-            newAssignments.add(assignProblem(problem));
-        }
-        assignments = newAssignments;
-        return newAssignments;
-    }
-
-    public AlgorithmProblemAssignment assignProblem(AlgorithmProblem problem) {
-        AlgorithmProblemAssignment assignment = AlgorithmProblemAssignment.builder()
-            .round(this)
-            .problem(problem)
-            .solveHistories(new ArrayList<>())
-            .build();
-        for (UserStudy userStudy : study.userStudies) {
-            AlgorithmProblemAssignmentSolveHistory history
-                = assignment.createSolveHistory(userStudy.getUser());
-            assignment.getSolveHistories().add(history);
-        }
-        return assignment;
-    }
 }

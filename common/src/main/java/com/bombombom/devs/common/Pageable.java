@@ -1,8 +1,8 @@
 package com.bombombom.devs.common;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-@AllArgsConstructor
+@Builder
 public record Pageable(
     Integer size,
     Integer page

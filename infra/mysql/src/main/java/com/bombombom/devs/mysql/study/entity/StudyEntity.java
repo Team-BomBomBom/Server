@@ -83,26 +83,5 @@ public abstract class StudyEntity extends BaseEntity {
     protected List<Round> rounds;
 
     public abstract StudyType getStudyType();
-
-    public List<String> getBaekjoonIds() {
-        return userStudies.stream()
-            .map(userStudy -> userStudy.getUser().getBaekjoon())
-            .toList();
-    }
-
-    public void createRounds() {
-        for (int i = 0; i < weeks; i++) {
-            createRound(i);
-        }
-    }
-
-    private void createRound(int idx) {
-        Round round = Round.builder()
-            .study(this)
-            .idx(idx)
-            .startDate(startDate.plusWeeks(idx))
-            .endDate(startDate.plusWeeks(idx + 1))
-            .build();
-        rounds.add(round);
-    }
+    
 }

@@ -1,17 +1,14 @@
 package com.bombombom.devs.mysql.study.entity;
 
-import com.bombombom.devs.common.AlgoTag;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.util.Pair;
 
 @Entity
 @Getter
@@ -19,7 +16,7 @@ import org.springframework.data.util.Pair;
 @Table(name = "algorithm_study")
 @DiscriminatorValue(StudyType.Values.ALGORITHM)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AlgorithmStudyEntity extends StudyEntity {
+public class AlgorithmStudy extends StudyEntity {
 
     @Column(name = "difficulty_math")
     private Float difficultyMath;
@@ -56,22 +53,4 @@ public class AlgorithmStudyEntity extends StudyEntity {
         return StudyType.ALGORITHM;
     }
 
-    public Map<String, Pair<Integer, Integer>> getDifficultySpreadForEachTag() {
-        return Map.of(
-            AlgoTag.MATH.name(), getDifficultySpread(difficultyMath),
-            AlgoTag.DP.name(), getDifficultySpread(difficultyDp),
-            AlgoTag.GREEDY.name(), getDifficultySpread(difficultyGreedy),
-            AlgoTag.IMPLEMENTATION.name(), getDifficultySpread(difficultyImpl),
-            AlgoTag.GRAPHS.name(), getDifficultySpread(difficultyGraph),
-            AlgoTag.GEOMETRY.name(), getDifficultySpread(difficultyGeometry),
-            AlgoTag.DATA_STRUCTURES.name(), getDifficultySpread(difficultyDs),
-            AlgoTag.STRING.name(), getDifficultySpread(difficultyString)
-        );
-    }
-
-    private Pair<Integer, Integer> getDifficultySpread(Float difficulty) {
-        Integer spreadLeft = Math.round(difficulty);
-        Integer spreadRight = spreadLeft + difficultyGap;
-        return Pair.of(spreadLeft, spreadRight);
-    }
 }

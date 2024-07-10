@@ -1,5 +1,7 @@
 package com.bombombom.devs.external.study.controller;
 
+import com.bombombom.devs.common.Page;
+import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.external.global.security.AppUserDetails;
 import com.bombombom.devs.external.global.web.LoginUser;
 import com.bombombom.devs.external.study.controller.dto.request.JoinStudyRequest;
@@ -16,8 +18,6 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -76,8 +76,8 @@ public class StudyController {
             .map(StudyResponse::fromResult);
 
         StudyPageResponse studyPageResponse = StudyPageResponse.builder()
-            .contents(studyPage.getContent())
-            .pageNumber(studyPage.getNumber())
+            .contents(studyPage.getContents())
+            .pageNumber(studyPage.getPageNumber())
             .totalPages(studyPage.getTotalPages())
             .totalElements(studyPage.getTotalElements())
             .build();

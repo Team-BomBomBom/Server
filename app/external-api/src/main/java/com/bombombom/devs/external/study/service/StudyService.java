@@ -1,5 +1,7 @@
 package com.bombombom.devs.external.study.service;
 
+import com.bombombom.devs.book.models.Book;
+import com.bombombom.devs.book.repository.BookRepository;
 import com.bombombom.devs.common.Page;
 import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
@@ -28,13 +30,7 @@ public class StudyService {
     private final Clock clock;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
-//    private final BookRepository bookRepository;
-//    private final UserStudyRepository userStudyRepository;
-//    private final SolvedacClient solvedacClient;
-//    private final RoundRepository roundRepository;
-//    private final AlgorithmProblemRepository algoProblemRepository;
-//    private final AlgorithmProblemAssignmentRepository algorithmProblemAssignmentRepository;
-//    private final AlgorithmProblemConverter algorithmProblemConverter;
+    private final BookRepository bookRepository;
 
     @Transactional
     public AlgorithmStudyResult createAlgorithmStudy(
@@ -104,7 +100,7 @@ public class StudyService {
 
 
     @Transactional
-    public List<Study> findHavingRoundToStart() {
+    public List<Study> findStudyHavingRoundToStart() {
         return studyRepository.findStudyHavingRoundToStartWithUsers(clock.today());
     }
 

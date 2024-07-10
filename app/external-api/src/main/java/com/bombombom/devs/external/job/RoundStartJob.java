@@ -10,6 +10,7 @@ import com.bombombom.devs.domain.study.repository.StudyRepository;
 import com.bombombom.devs.domain.user.model.User;
 import com.bombombom.devs.domain.user.repository.UserRepository;
 import com.bombombom.devs.external.study.service.StudyService;
+import com.bombombom.devs.global.util.Clock;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
     private final AlgorithmProblemService algorithmProblemService;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
+    private final Clock clock;
     private boolean isInterrupted = false;
 
     public static Trigger buildJobTrigger() {
@@ -77,7 +79,7 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
         long startTime = System.currentTimeMillis();
 
         //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
-        List<Study> studies = studyService.findHavingRoundToStart();
+        List<Study> studies = studyService.findStudyHavingRoundToStart();
 
         studies.forEach(study -> {
 
@@ -99,7 +101,8 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
                         algorithmStudy.getDifficultySpreadForEachTag());
 
                 //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
-                algorithmStudy.assignProblems(
+                algorithmStudy.assignProblemsToOngoingRound(
+                    clock.today(),
                     unsolvedProblems.stream().map(AlgorithmProblem::getId).toList());
                 studyRepository.save(study);
             }

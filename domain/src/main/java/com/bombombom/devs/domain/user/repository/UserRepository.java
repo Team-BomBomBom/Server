@@ -12,6 +12,8 @@ public interface UserRepository {
 
     Optional<User> findUserByUsername(String username);
 
+    User save(User user);
+
     void deleteByUsername(String username);
 
     boolean existsByUsername(String username);

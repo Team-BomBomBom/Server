@@ -1,7 +1,7 @@
 package com.bombombom.devs.external.user.controller.dto;
 
-import com.bombombom.devs.user.models.Role;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
+import com.bombombom.devs.domain.user.enums.Role;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import lombok.Builder;
 
 @Builder
