@@ -2,8 +2,6 @@ package com.bombombom.devs.domain.study.model;
 
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
-import com.bombombom.devs.domain.study.vo.Round;
-import com.bombombom.devs.domain.user.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AccessLevel;
@@ -51,17 +49,18 @@ public abstract class Study {
     protected StudyStatus state;
 
     @Setter
-    private User leader;
+    private Long leaderId;
 
-    protected List<User> members;
+    protected List<Long> memberIds;
 
     protected List<Round> rounds;
 
+
     public abstract StudyType getStudyType();
 
-    public boolean canJoin(User user) {
+    public boolean canJoin(Long userId, Integer reliability) {
 
-        if (members.stream().anyMatch(member -> member.equals(user))) {
+        if (memberIds.stream().anyMatch(memberId -> memberId.equals(userId))) {
             throw new IllegalStateException("Already Joined Study");
         }
         if (state.equals(StudyStatus.END)) {
@@ -70,7 +69,7 @@ public abstract class Study {
         if (headCount >= capacity) {
             throw new IllegalStateException("The Study is full");
         }
-        if (reliabilityLimit != null && user.getReliability() < reliabilityLimit) {
+        if (reliabilityLimit != null && reliability < reliabilityLimit) {
             throw new IllegalStateException("User reliability is low");
         }
         return true;
@@ -78,12 +77,6 @@ public abstract class Study {
 
     public Integer calculateDeposit() {
         return penalty * weeks;
-    }
-
-
-    public List<String> getBaekjoonIds() {
-        return members.stream().map(User::getBaekjoon)
-            .toList();
     }
 
     public void createRounds() {
@@ -95,14 +88,15 @@ public abstract class Study {
     private void createRound(int idx) {
         Round round = Round.builder()
             .idx(idx)
+            .study(this)
             .startDate(startDate.plusWeeks(idx))
             .endDate(startDate.plusWeeks(idx + 1))
             .build();
         rounds.add(round);
     }
 
-    public void join(User user) {
-        members.add(user);
+    public void join(Long userId) {
+        memberIds.add(userId);
         headCount++;
     }
 }

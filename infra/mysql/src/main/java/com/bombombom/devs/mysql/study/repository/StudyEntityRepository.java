@@ -5,6 +5,9 @@ import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.domain.study.model.Study;
 import com.bombombom.devs.domain.study.repository.StudyRepository;
 import com.bombombom.devs.mysql.study.Mapper;
+import com.bombombom.devs.mysql.study.entity.Round;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -13,12 +16,14 @@ import org.springframework.stereotype.Repository;
 public class StudyEntityRepository implements StudyRepository {
 
     StudyJpaRepository studyJpaRepository;
+    RoundRepository roundRepository;
+
 
     @Override
-    public Optional<Study> findStudyWithUsersById(Long id) {
-
-        return studyJpaRepository.findStudyWithUsersById(id).map(Mapper::toModel);
+    public Optional<Study> findWithUsersById(Long id) {
+        return studyJpaRepository.findWithUsersById(id).map(Mapper::toModel);
     }
+
 
     @Override
     public Study save(Study study) {
@@ -26,12 +31,11 @@ public class StudyEntityRepository implements StudyRepository {
     }
 
     @Override
-    public Page<Study> findAllWithUserAndBook(Pageable pageable) {
+    public Page<Study> findAll(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.page(), pageable.size());
 
         org.springframework.data.domain.Page<Study> page
-            = studyJpaRepository.findAllWithUserAndBook(pageRequest).map(Mapper::toModel);
-
+            = studyJpaRepository.findAll(pageRequest).map(Mapper::toModel);
         return Page.<Study>builder()
             .pageNumber(page.getNumber())
             .totalPages(page.getTotalPages())
@@ -40,4 +44,15 @@ public class StudyEntityRepository implements StudyRepository {
             .build();
 
     }
+
+    @Override
+    public List<Study> findHavingRoundToStart(LocalDate localDate) {
+        List<Round> rounds = roundRepository.findRoundsWithStudyByStartDate(localDate);
+
+        return rounds.stream().map(Round::getStudy).map(Mapper::toModel).toList();
+
+
+    }
+
+
 }

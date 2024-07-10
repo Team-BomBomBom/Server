@@ -1,13 +1,16 @@
-package com.bombombom.devs.job;
+package com.bombombom.devs.external.job;
 
 import static org.quartz.JobBuilder.newJob;
 
 import com.bombombom.devs.algo.models.AlgorithmProblem;
 import com.bombombom.devs.algo.service.AlgorithmProblemService;
-import com.bombombom.devs.study.models.Round;
-import com.bombombom.devs.study.service.StudyService;
+import com.bombombom.devs.domain.study.model.AlgorithmStudy;
+import com.bombombom.devs.domain.study.model.Study;
+import com.bombombom.devs.domain.study.repository.StudyRepository;
+import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.domain.user.repository.UserRepository;
+import com.bombombom.devs.external.study.service.StudyService;
 import java.util.List;
-import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +38,8 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
 
     private final StudyService studyService;
     private final AlgorithmProblemService algorithmProblemService;
+    private final StudyRepository studyRepository;
+    private final UserRepository userRepository;
     private boolean isInterrupted = false;
 
     public static Trigger buildJobTrigger() {
@@ -71,19 +76,32 @@ public class RoundStartJob extends QuartzJobBean implements InterruptableJob {
     protected void executeInternal(@NonNull JobExecutionContext context) {
         long startTime = System.currentTimeMillis();
 
-        List<Round> rounds = studyService.findRoundsHaveToStart();
-        rounds.forEach(round -> {
+        //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
+        List<Study> studies = studyService.findHavingRoundToStart();
+        
+        studies.forEach(study -> {
+
             if (isInterrupted) {
                 log.error("RoundStartJob is interrupted!");
                 isInterrupted = false;
                 return;
             }
-            if (round.getStudy() instanceof AlgorithmStudy study) {
-                Map<String, Integer> problemCountForEachTag =
-                    algorithmProblemService.getProblemCountForEachTag(study.getProblemCount());
+            if (study instanceof AlgorithmStudy algorithmStudy) {
+                //User서비스에 API 콜
+                List<String> baekjoonIds = userRepository.findAllById(study.getMemberIds())
+                    .stream().map(User::getBaekjoon).toList();
+
+                //Algo서비스에 API 콜
                 List<AlgorithmProblem> unsolvedProblems =
-                    studyService.getUnSolvedProblemListAndSave(study, problemCountForEachTag);
-                studyService.assignProblemToRound(round, unsolvedProblems);
+                    algorithmProblemService.getUnSolvedProblemListAndSave(
+                        baekjoonIds,
+                        algorithmStudy.getProblemCount(),
+                        algorithmStudy.getDifficultySpreadForEachTag());
+
+                //만약 quartzJob 서버와 스터디 API서버가 분리된다면 여기서도 API콜 발생
+                // call studyService.assignProblems(study.getId(), unsolvedProblems.stream().map(AlgorithmProblem::getId))
+                study.assignProblems(unsolvedProblems.stream().map(AlgorithmProblem::getId));
+                studyRepository.save(study);
             }
         });
 

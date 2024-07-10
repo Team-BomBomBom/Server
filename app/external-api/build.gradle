@@ -2,12 +2,14 @@ dependencies {
 
     implementation project(':domain:integrated')
     implementation project(':domain')
+    implementation project(':common')
     runtimeOnly project(':infra:mysql')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.3.1'
 
     // JWT

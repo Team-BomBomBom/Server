@@ -35,7 +35,7 @@ public class Mapper {
             .difficultyGreedy(db)
             .difficultyGap(difficultyGap)
             .problemCount(registerAlgorithmStudyCommand.problemCount())
-            .members(new ArrayList<>())
+            .memberIds(new ArrayList<>())
             .rounds(new ArrayList<>())
             .build();
     }
@@ -52,7 +52,7 @@ public class Mapper {
             .penalty(registerBookStudyCommand.penalty())
             .headCount(registerBookStudyCommand.headCount())
             .state(registerBookStudyCommand.state())
-            .members(new ArrayList<>())
+            .memberIds(new ArrayList<>())
             .rounds(new ArrayList<>())
             .build();
     }

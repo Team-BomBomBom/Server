@@ -2,7 +2,7 @@ package com.bombombom.devs.mysql.study.entity;
 
 
 import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.mysql.user.entity.User;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class UserStudy extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false,
         foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private User user;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id", nullable = false,
@@ -43,7 +43,7 @@ public class UserStudy extends BaseEntity {
     @Column(name = "security_deposit")
     private Integer securityDeposit;
 
-    public static UserStudy of(User user, StudyEntity study, Integer securityDeposit) {
+    public static UserStudy of(UserEntity user, StudyEntity study, Integer securityDeposit) {
         return UserStudy.builder()
             .user(user)
             .study(study)

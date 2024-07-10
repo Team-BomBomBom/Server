@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class UserEntity extends BaseEntity {
 
     private Long id;
 
@@ -30,8 +30,8 @@ public class User extends BaseEntity {
     private Integer reliability;
     private Integer money;
 
-    public static User signup(String username, String password, String introduce) {
-        return User.builder()
+    public static UserEntity signup(String username, String password, String introduce) {
+        return UserEntity.builder()
             .username(username)
             .password(password)
             .introduce(introduce)

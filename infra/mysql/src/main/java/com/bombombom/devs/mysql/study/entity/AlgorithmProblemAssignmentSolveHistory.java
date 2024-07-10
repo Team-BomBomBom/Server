@@ -1,7 +1,7 @@
 package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.mysql.user.entity.User;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class AlgorithmProblemAssignmentSolveHistory extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
         foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private User user;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignment_id",

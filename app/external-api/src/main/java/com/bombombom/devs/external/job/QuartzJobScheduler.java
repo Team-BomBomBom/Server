@@ -1,4 +1,4 @@
-package com.bombombom.devs.job;
+package com.bombombom.devs.external.job;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

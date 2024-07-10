@@ -4,18 +4,29 @@ package com.bombombom.devs.algo.service;
 
 import com.bombombom.devs.algo.config.ProbabilityConfig;
 import com.bombombom.devs.algo.models.AlgoTag;
+import com.bombombom.devs.algo.models.AlgorithmProblem;
+import com.bombombom.devs.algo.models.AlgorithmProblemConverter;
+import com.bombombom.devs.algo.repository.AlgorithmProblemRepository;
+import com.bombombom.devs.client.solvedac.SolvedacClient;
+import com.bombombom.devs.client.solvedac.dto.ProblemListResponse;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.random.RandomGenerator;
 import lombok.RequiredArgsConstructor;
+import org.graalvm.collections.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class AlgorithmProblemService {
 
     private final RandomGenerator randomGenerator;
+    private final AlgorithmProblemConverter algorithmProblemConverter;
+    private final SolvedacClient solvedacClient;
+    private final AlgorithmProblemRepository algorithmProblemRepository;
 
     /**
      * totalProblemCount 개의 문제를 각 태그별로 정해진 확률대로 추첨하여 분배합니다.
@@ -51,13 +62,28 @@ public class AlgorithmProblemService {
         }
         return problemCountByTag;
     }
-
     private AlgoTag drawProblem() {
         double rand = randomGenerator.nextDouble(ProbabilityConfig.totalProbability);
         return Arrays.stream(AlgoTag.values())
             .filter(algoTag -> algoTag.isInRange(rand))
             .findFirst()
             .orElse(null);
+    }
+
+    @Transactional
+    public List<AlgorithmProblem> getUnSolvedProblemListAndSave(
+        List<String> baekjoonIds,
+        Integer totalProblemCount,
+        Map<String, Pair<Integer, Integer>> difficultySpreadForEachTag
+    ) {
+
+        Map<String, Integer> problemCountForEachTag = getProblemCountForEachTag(totalProblemCount);
+
+        ProblemListResponse problemListResponse = solvedacClient.getUnSolvedProblems(
+            baekjoonIds, problemCountForEachTag, difficultySpreadForEachTag);
+
+        List<AlgorithmProblem> problems = algorithmProblemConverter.convert(problemListResponse);
+        return algorithmProblemRepository.saveAll(problems);
     }
 
 

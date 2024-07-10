@@ -3,7 +3,7 @@ package com.bombombom.devs.mysql.study.entity;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.mysql.user.entity.User;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -61,7 +61,7 @@ public abstract class StudyEntity extends BaseEntity {
     @JoinColumn(name = "leader_id",
         nullable = false,
         foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private User leader;
+    private UserEntity leader;
 
     @Column(name = "start_date")
     protected LocalDate startDate;

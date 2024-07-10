@@ -1,7 +1,7 @@
 package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.mysql.user.entity.User;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -44,7 +44,7 @@ public class AlgorithmProblemAssignment extends BaseEntity {
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.PERSIST)
     private List<AlgorithmProblemAssignmentSolveHistory> solveHistories;
 
-    public AlgorithmProblemAssignmentSolveHistory createSolveHistory(User user) {
+    public AlgorithmProblemAssignmentSolveHistory createSolveHistory(UserEntity user) {
         return AlgorithmProblemAssignmentSolveHistory.builder()
             .assignment(this)
             .user(user)

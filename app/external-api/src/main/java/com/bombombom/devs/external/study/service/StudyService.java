@@ -1,8 +1,7 @@
 package com.bombombom.devs.external.study.service;
 
-import com.bombombom.devs.algo.models.AlgorithmProblem;
-import com.bombombom.devs.book.models.Book;
-import com.bombombom.devs.client.solvedac.dto.ProblemListResponse;
+import com.bombombom.devs.common.Page;
+import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
 import com.bombombom.devs.domain.study.model.BookStudy;
 import com.bombombom.devs.domain.study.model.Study;
@@ -18,10 +17,7 @@ import com.bombombom.devs.external.study.service.dto.result.StudyResult;
 import com.bombombom.devs.global.util.Clock;
 import com.bombombom.devs.study.exception.NotFoundException;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +46,9 @@ public class StudyService {
 
         AlgorithmStudy algorithmStudy = Mapper.toModel(registerAlgorithmStudyCommand);
 
-        algorithmStudy.setLeader(user);
+        algorithmStudy.setLeaderId(userId);
         algorithmStudy.createRounds();
-        algorithmStudy.join(user);
+        algorithmStudy.join(userId);
 
         studyRepository.save(algorithmStudy);
 
@@ -66,15 +62,17 @@ public class StudyService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("User Not Found"));
 
+        //Book 서비스에 API 콜 발생
         Book book = bookRepository.findByIsbn(registerBookStudyCommand.isbn())
             .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
         BookStudy bookStudy = Mapper.toModel(registerBookStudyCommand);
 
-        bookStudy.setLeader(user);
-        bookStudy.join(user);
+        bookStudy.setLeaderId(userId);
+        bookStudy.setBookId(book.getId());
+        bookStudy.join(userId);
         bookStudy.createRounds();
-        
+
         studyRepository.save(bookStudy);
 
         return BookStudyResult.fromModel(bookStudy);
@@ -82,10 +80,9 @@ public class StudyService {
 
     @Transactional(readOnly = true)
     public Page<StudyResult> readStudy(Pageable pageable) {
-        Page<Study> studyPage = studyRepository.findAllWithUserAndBook(pageable);
+        Page<Study> studyPage = studyRepository.findAll(pageable);
 
         return studyPage.map(StudyResult::fromEntity);
-
     }
 
     @Transactional
@@ -94,38 +91,21 @@ public class StudyService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalStateException("User Not Found"));
 
-        Study study = studyRepository.findStudyWithUsersById(joinStudyCommand.studyId())
+        Study study = studyRepository.findWithUsersById(joinStudyCommand.studyId())
             .orElseThrow(
                 () -> new IllegalStateException("Study Not Found"));
 
-        if (!study.canJoin(user)) {
+        if (!study.canJoin(user.getId(), user.getReliability())) {
             return;
         }
 
         studyRepository.save(study);
     }
 
-    @Transactional
-    public List<AlgorithmProblem> getUnSolvedProblemListAndSave(
-        AlgorithmStudy study,
-        Map<String, Integer> problemCountForEachTag
-    ) {
-        ProblemListResponse problemListResponse = solvedacClient.getUnSolvedProblems(
-            study.getBaekjoonIds(), problemCountForEachTag, study.getDifficultySpreadForEachTag());
-        List<AlgorithmProblem> problems = algorithmProblemConverter.convert(problemListResponse);
-        return algoProblemRepository.saveAll(problems);
-    }
 
     @Transactional
-    public void assignProblemToRound(
-        Round round, List<AlgorithmProblem> unSolvedProblems) {
-        List<AlgorithmProblemAssignment> assignments = round.assignProblems(unSolvedProblems);
-        algorithmProblemAssignmentRepository.saveAll(assignments);
-    }
-
-    @Transactional
-    public List<Round> findRoundsHaveToStart() {
-        return roundRepository.findRoundsWithStudyByStartDate(clock.today());
+    public List<Study> findHavingRoundToStart() {
+        return studyRepository.findHavingRoundToStart(clock.today());
     }
 
 }

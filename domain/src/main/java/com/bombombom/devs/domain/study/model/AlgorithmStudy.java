@@ -1,10 +1,13 @@
 package com.bombombom.devs.domain.study.model;
 
+import com.bombombom.devs.common.AlgoTag;
 import com.bombombom.devs.domain.study.enums.StudyType;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.graalvm.collections.Pair;
 
 @Getter
 @SuperBuilder
@@ -31,27 +34,31 @@ public class AlgorithmStudy extends Study {
 
     private Integer problemCount;
 
+
     @Override
     public StudyType getStudyType() {
         return StudyType.ALGORITHM;
     }
 
-//    public Map<String, Pair<Integer, Integer>> getDifficultySpreadForEachTag() {
-//        return Map.of(
-//            AlgoTag.MATH.name(), getDifficultySpread(difficultyMath),
-//            AlgoTag.DP.name(), getDifficultySpread(difficultyDp),
-//            AlgoTag.GREEDY.name(), getDifficultySpread(difficultyGreedy),
-//            AlgoTag.IMPLEMENTATION.name(), getDifficultySpread(difficultyImpl),
-//            AlgoTag.GRAPHS.name(), getDifficultySpread(difficultyGraph),
-//            AlgoTag.GEOMETRY.name(), getDifficultySpread(difficultyGeometry),
-//            AlgoTag.DATA_STRUCTURES.name(), getDifficultySpread(difficultyDs),
-//            AlgoTag.STRING.name(), getDifficultySpread(difficultyString)
-//        );
-//    }
+    public Map<String, Pair<Integer, Integer>> getDifficultySpreadForEachTag() {
+        return Map.of(
+            AlgoTag.MATH.name(), getDifficultySpread(difficultyMath),
+            AlgoTag.DP.name(), getDifficultySpread(difficultyDp),
+            AlgoTag.GREEDY.name(), getDifficultySpread(difficultyGreedy),
+            AlgoTag.IMPLEMENTATION.name(), getDifficultySpread(difficultyImpl),
+            AlgoTag.GRAPHS.name(), getDifficultySpread(difficultyGraph),
+            AlgoTag.GEOMETRY.name(), getDifficultySpread(difficultyGeometry),
+            AlgoTag.DATA_STRUCTURES.name(), getDifficultySpread(difficultyDs),
+            AlgoTag.STRING.name(), getDifficultySpread(difficultyString)
+        );
+    }
 
-//    private Pair<Integer, Integer> getDifficultySpread(Float difficulty) {
-//        Integer spreadLeft = Math.round(difficulty);
-//        Integer spreadRight = spreadLeft + difficultyGap;
-//        return Pair.of(spreadLeft, spreadRight);
-//    }
+    private Pair<Integer, Integer> getDifficultySpread(Float difficulty) {
+        Integer spreadLeft = Math.round(difficulty);
+        Integer spreadRight = spreadLeft + difficultyGap;
+
+        return Pair.create(spreadLeft, spreadRight);
+    }
+
+
 }

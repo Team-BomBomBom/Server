@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.util.Pair;
+import org.graalvm.collections.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -96,9 +96,9 @@ public class SolvedacClient {
             .append(tag)
             .append(SPACE)
             .append(DIFFICULTY_PREFIX)
-            .append(difficultySpread.getFirst())
+            .append(difficultySpread.getLeft())
             .append(DIFFICULTY_GAP)
-            .append(difficultySpread.getSecond());
+            .append(difficultySpread.getRight());
         return queryBuilder.toString();
     }
 
