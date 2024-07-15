@@ -1,4 +1,4 @@
-package com.bombombom.devs.study.service;
+package com.bombombom.devs.external.study.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -6,18 +6,24 @@ import static org.mockito.Mockito.when;
 
 import com.bombombom.devs.book.models.Book;
 import com.bombombom.devs.book.repository.BookRepository;
-import com.bombombom.devs.study.models.StudyStatus;
-import com.bombombom.devs.study.repository.StudyRepository;
-import com.bombombom.devs.study.repository.UserStudyRepository;
-import com.bombombom.devs.study.service.dto.command.JoinStudyCommand;
-import com.bombombom.devs.study.service.dto.command.RegisterAlgorithmStudyCommand;
-import com.bombombom.devs.study.service.dto.command.RegisterBookStudyCommand;
-import com.bombombom.devs.study.service.dto.result.AlgorithmStudyResult;
-import com.bombombom.devs.study.service.dto.result.BookStudyResult;
-import com.bombombom.devs.study.service.dto.result.StudyResult;
-import com.bombombom.devs.user.models.Role;
-import com.bombombom.devs.user.models.User;
-import com.bombombom.devs.user.repository.UserRepository;
+import com.bombombom.devs.book.service.dto.SearchBooksResult;
+import com.bombombom.devs.common.Page;
+import com.bombombom.devs.common.Pageable;
+import com.bombombom.devs.domain.study.enums.StudyStatus;
+import com.bombombom.devs.domain.study.model.AlgorithmStudy;
+import com.bombombom.devs.domain.study.model.BookStudy;
+import com.bombombom.devs.domain.study.model.Study;
+import com.bombombom.devs.domain.study.repository.StudyRepository;
+import com.bombombom.devs.domain.user.enums.Role;
+import com.bombombom.devs.domain.user.model.User;
+import com.bombombom.devs.domain.user.repository.UserRepository;
+import com.bombombom.devs.external.study.service.dto.command.JoinStudyCommand;
+import com.bombombom.devs.external.study.service.dto.command.RegisterAlgorithmStudyCommand;
+import com.bombombom.devs.external.study.service.dto.command.RegisterBookStudyCommand;
+import com.bombombom.devs.external.study.service.dto.result.AlgorithmStudyResult;
+import com.bombombom.devs.external.study.service.dto.result.BookStudyResult;
+import com.bombombom.devs.external.study.service.dto.result.StudyResult;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class StudyServiceTest {
@@ -42,8 +44,7 @@ class StudyServiceTest {
     @Mock
     private BookRepository bookRepository;
 
-    @Mock
-    private UserStudyRepository userStudyRepository;
+
     @Mock
     private UserRepository userRepository;
 
@@ -83,7 +84,7 @@ class StudyServiceTest {
                 .startDate(LocalDate.of(2024, 06, 14))
                 .penalty(5000)
                 .weeks(5)
-                .leader(leader)
+                .leaderId(leader.getId())
                 .difficultyDp(12.4f)
                 .difficultyDs(12f)
                 .difficultyGraph(12.9f)
@@ -102,29 +103,38 @@ class StudyServiceTest {
                 .introduce("안녕하세요")
                 .startDate(LocalDate.of(2024, 06, 14))
                 .name("스터디1")
-                .leader(leader)
+                .leaderId(leader.getId())
                 .penalty(5000)
                 .weeks(5)
-                .book(book)
+                .bookId(book.getId())
                 .build();
 
         repositoryResponses.add(study1);
         repositoryResponses.add(study2);
 
-        Page<Study> studies = new PageImpl<>(repositoryResponses);
-        when(studyRepository.findAllWithUserAndBook(any(Pageable.class))).thenReturn(studies);
+        Page<Study> studies = Page.<Study>builder()
+            .contents(repositoryResponses)
+            .build();
+        when(studyRepository.findAll(any(Pageable.class))).thenReturn(studies);
 
         /*
         When
          */
-        Page<StudyResult> studyResults = studyService.readStudy(PageRequest.of(0, 10));
+        Page<StudyResult> studyResults = studyService.readStudy(
+            Pageable.builder()
+                .page(0)
+                .size(10)
+                .build()
+        );
 
         /*
         Then
          */
         List<StudyResult> studyList = repositoryResponses.stream()
-            .map(StudyResult::fromEntity).toList();
-        Page<StudyResult> expectedResponse = new PageImpl<>(studyList);
+            .map(study -> StudyResult.fromModel(study, null, null)).toList();
+        Page<StudyResult> expectedResponse = Page.<StudyResult>builder()
+            .contents(studyList)
+            .build();
 
         Assertions.assertThat(studyResults).isEqualTo(expectedResponse);
 
@@ -152,8 +162,6 @@ class StudyServiceTest {
             .build();
         JoinStudyCommand joinStudyCommand = JoinStudyCommand.builder().studyId(study.getId())
             .build();
-        when(userStudyRepository.existsByUserIdAndStudyId(testuser.getId(), study.getId()))
-            .thenReturn(true);
 
         /*
          * When & Then
@@ -202,7 +210,7 @@ class StudyServiceTest {
             .penalty(5000)
             .weeks(5)
             .state(StudyStatus.READY)
-            .leader(testuser)
+            .leaderId(testuser.getId())
             .difficultyDp(10f)
             .difficultyDs(10f)
             .difficultyImpl(10f)
@@ -228,8 +236,8 @@ class StudyServiceTest {
         /*
         Then
          */
-        StudyResult expectedResponse = StudyResult.fromEntity(
-            algorithmStudy);
+        StudyResult expectedResponse = StudyResult.fromModel(
+            algorithmStudy, UserProfileResult.fromModel(testuser), null);
 
         Assertions.assertThat(algorithmStudyResult).isEqualTo(expectedResponse);
     }
@@ -278,9 +286,9 @@ class StudyServiceTest {
             .capacity(10)
             .startDate(LocalDate.of(2024, 06, 19))
             .penalty(5000)
-            .leader(testuser)
+            .leaderId(testuser.getId())
             .weeks(5)
-            .book(book)
+            .bookId(book.getId())
             .state(StudyStatus.READY)
             .build();
 
@@ -297,8 +305,8 @@ class StudyServiceTest {
         /*
         Then
          */
-        StudyResult expectedResponse = StudyResult.fromEntity(
-            bookStudy);
+        StudyResult expectedResponse = StudyResult.fromModel(
+            bookStudy, UserProfileResult.fromModel(testuser), SearchBooksResult.fromEntity(book));
 
         Assertions.assertThat(bookStudyResult).isEqualTo(expectedResponse);
     }

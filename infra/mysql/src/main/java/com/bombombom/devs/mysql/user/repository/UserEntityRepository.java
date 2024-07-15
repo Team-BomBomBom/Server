@@ -5,7 +5,9 @@ import com.bombombom.devs.domain.user.repository.UserRepository;
 import com.bombombom.devs.mysql.user.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserEntityRepository implements UserRepository {
 
     UserJpaRepository userJpaRepository;

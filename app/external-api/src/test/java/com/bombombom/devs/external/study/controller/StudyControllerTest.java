@@ -1,5 +1,11 @@
 package com.bombombom.devs.external.study.controller;
 
+import static com.bombombom.devs.domain.study.model.Study.MAX_CAPACITY;
+import static com.bombombom.devs.domain.study.model.Study.MAX_DIFFICULTY_LEVEL;
+import static com.bombombom.devs.domain.study.model.Study.MAX_PENALTY;
+import static com.bombombom.devs.domain.study.model.Study.MAX_PROBLEM_COUNT;
+import static com.bombombom.devs.domain.study.model.Study.MAX_RELIABILITY_LIMIT;
+import static com.bombombom.devs.domain.study.model.Study.MAX_WEEKS;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -14,6 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
+import com.bombombom.devs.common.Page;
+import com.bombombom.devs.common.Pageable;
+import com.bombombom.devs.domain.study.enums.StudyStatus;
+import com.bombombom.devs.domain.user.enums.Role;
 import com.bombombom.devs.external.config.TestUserDetailsServiceConfig;
 import com.bombombom.devs.external.global.security.JwtUtils;
 import com.bombombom.devs.external.study.controller.dto.request.JoinStudyRequest;
@@ -21,16 +31,14 @@ import com.bombombom.devs.external.study.controller.dto.request.RegisterAlgorith
 import com.bombombom.devs.external.study.controller.dto.request.RegisterBookStudyRequest;
 import com.bombombom.devs.external.study.controller.dto.response.StudyPageResponse;
 import com.bombombom.devs.external.study.controller.dto.response.StudyResponse;
+import com.bombombom.devs.external.study.service.StudyService;
+import com.bombombom.devs.external.study.service.dto.command.RegisterAlgorithmStudyCommand;
+import com.bombombom.devs.external.study.service.dto.command.RegisterBookStudyCommand;
+import com.bombombom.devs.external.study.service.dto.result.AlgorithmStudyResult;
+import com.bombombom.devs.external.study.service.dto.result.BookStudyResult;
+import com.bombombom.devs.external.study.service.dto.result.StudyResult;
+import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import com.bombombom.devs.global.util.SystemClock;
-import com.bombombom.devs.study.models.StudyStatus;
-import com.bombombom.devs.study.service.StudyService;
-import com.bombombom.devs.study.service.dto.command.RegisterAlgorithmStudyCommand;
-import com.bombombom.devs.study.service.dto.command.RegisterBookStudyCommand;
-import com.bombombom.devs.study.service.dto.result.AlgorithmStudyResult;
-import com.bombombom.devs.study.service.dto.result.BookStudyResult;
-import com.bombombom.devs.study.service.dto.result.StudyResult;
-import com.bombombom.devs.user.models.Role;
-import com.bombombom.devs.user.service.dto.UserProfileResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,9 +51,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -1401,7 +1406,11 @@ class StudyControllerTest {
         studyResults.add(studyResult2);
 
         Page<StudyResult> serviceResponse =
-            new PageImpl<>(studyResults);
+            Page.<StudyResult>builder()
+                .pageNumber(1)
+                .totalPages(2)
+                .contents(studyResults)
+                .build();
 
         when(studyService.readStudy(any(Pageable.class))).thenReturn(serviceResponse);
 
@@ -1420,9 +1429,8 @@ class StudyControllerTest {
         List<StudyResponse> studyResponses = studyResults.stream().map(StudyResponse::fromResult)
             .toList();
         StudyPageResponse studyPageResponse = StudyPageResponse.builder()
-            .pageNumber(0)
-            .totalPages(1)
-            .totalElements(2L)
+            .pageNumber(1)
+            .totalPages(2)
             .contents(studyResponses)
             .build();
 

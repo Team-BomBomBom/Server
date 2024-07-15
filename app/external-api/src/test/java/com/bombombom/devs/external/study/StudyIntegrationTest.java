@@ -141,18 +141,17 @@ public class StudyIntegrationTest {
                     .introduce("안녕하세요")
                     .startDate(LocalDate.now())
                     .name("스터디")
-                    .leader(leader)
+                    .leaderId(leader.getId())
                     .penalty(1000)
                     .weeks(5)
                     .state(StudyStatus.READY)
                     .headCount(0)
-                    .book(book)
+                    .bookId(book.getId())
                     .build();
             studyRepository.save(study);
             JoinStudyRequest request = JoinStudyRequest.builder()
                 .studyId(study.getId()).build();
 
-            System.out.println("study.getId() = " + study.getId());
             /*
              When
              */
@@ -423,7 +422,7 @@ public class StudyIntegrationTest {
                 .weeks(5)
                 .state(StudyStatus.READY)
                 .headCount(0)
-                .leader(leader)
+                .leaderId(leader.getId())
                 .difficultyDp(12.4f)
                 .difficultyDs(12f)
                 .difficultyGraph(12.9f)
@@ -444,8 +443,8 @@ public class StudyIntegrationTest {
                 .name("스터디1")
                 .penalty(5000)
                 .weeks(5)
-                .leader(leader)
-                .book(book)
+                .leaderId(leader.getId())
+                .bookId(book.getId())
                 .state(StudyStatus.READY)
                 .headCount(0)
                 .build();
@@ -466,7 +465,9 @@ public class StudyIntegrationTest {
         Then
          */
         List<StudyResponse> studies = new ArrayList<>();
-        studies.add(StudyResponse.fromResult(StudyResult.fromEntity(study1)));
+        studies.add(StudyResponse.fromResult(
+            StudyResult.fromModel(study1, UserProfileResult.fromModel(leader),
+                SearchBooksResult.fromEntity(book))));
 
         StudyPageResponse studyPageResponse = StudyPageResponse.builder()
             .totalPages(2)

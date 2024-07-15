@@ -8,4 +8,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByIsbn(Long isbn);
 
+    Book save(Book book);
+
 }
