@@ -32,7 +32,8 @@ public record AlgorithmStudyResult(
     Integer difficultyGap,
     Integer problemCount) implements StudyResult {
 
-    public static AlgorithmStudyResult fromModel(AlgorithmStudy algorithmStudy) {
+    public static AlgorithmStudyResult fromModel(AlgorithmStudy algorithmStudy,
+        UserProfileResult leaderProfile) {
 
         return AlgorithmStudyResult.builder()
             .id(algorithmStudy.getId())
@@ -44,7 +45,7 @@ public record AlgorithmStudyResult(
             .startDate(algorithmStudy.getStartDate())
             .reliabilityLimit(algorithmStudy.getReliabilityLimit())
             .penalty(algorithmStudy.getPenalty())
-            .leader(UserProfileResult.fromModel(algorithmStudy.getLeader()))
+            .leader(leaderProfile)
             .state(algorithmStudy.getState())
             .difficultyDs(algorithmStudy.getDifficultyDs())
             .difficultyGraph(algorithmStudy.getDifficultyGraph())

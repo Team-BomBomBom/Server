@@ -21,6 +21,7 @@ public class Mapper {
     }
 
     public static StudyEntity toEntity(Study study) {
+
         switch (study.getStudyType()) {
             case BOOK -> {
                 return BookStudy.builder().build();

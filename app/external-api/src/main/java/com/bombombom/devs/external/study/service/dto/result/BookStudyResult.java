@@ -1,6 +1,5 @@
 package com.bombombom.devs.external.study.service.dto.result;
 
-import com.bombombom.devs.book.service.dto.SearchBooksResult;
 import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
@@ -26,7 +25,8 @@ public record BookStudyResult(
     BookResult bookResult
 ) implements StudyResult {
 
-    public static BookStudyResult fromModel(BookStudy bookStudy) {
+    public static BookStudyResult fromModel(BookStudy bookStudy, UserProfileResult leaderProfile,
+        BookResult bookResult) {
 
         return BookStudyResult.builder()
             .id(bookStudy.getId())
@@ -39,8 +39,8 @@ public record BookStudyResult(
             .reliabilityLimit(bookStudy.getReliabilityLimit())
             .penalty(bookStudy.getPenalty())
             .state(bookStudy.getState())
-            .leader(UserProfileResult.fromModel(bookStudy.getLeader()))
-            .bookResult(SearchBooksResult.fromEntity(bookStudy.getBook()))
+            .leader(leaderProfile)
+            .bookResult(bookResult)
             .studyType(bookStudy.getStudyType())
             .build();
     }

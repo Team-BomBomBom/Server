@@ -5,6 +5,7 @@ import com.bombombom.devs.domain.user.repository.UserRepository;
 import com.bombombom.devs.external.user.service.dto.SignupCommand;
 import com.bombombom.devs.external.user.service.dto.UserProfileResult;
 import com.bombombom.devs.user.exception.ExistUsernameException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class UserService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalStateException("User Not Found"));
         return UserProfileResult.fromModel(user);
+    }
+
+    public List<UserProfileResult> findAllById(List<Long> ids) {
+        List<User> users = userRepository.findAllById(ids);
+        return users.stream().map(UserProfileResult::fromModel).toList();
     }
 }

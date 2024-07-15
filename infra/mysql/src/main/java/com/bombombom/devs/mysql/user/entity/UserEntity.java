@@ -50,4 +50,5 @@ public class UserEntity extends BaseEntity {
         }
         this.money -= money;
     }
+    
 }

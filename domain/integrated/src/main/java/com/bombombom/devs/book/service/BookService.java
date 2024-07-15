@@ -13,9 +13,10 @@ import com.bombombom.devs.book.service.dto.NaverBookApiQuery;
 import com.bombombom.devs.book.service.dto.NaverBookApiResult;
 import com.bombombom.devs.book.service.dto.SearchBookQuery;
 import com.bombombom.devs.book.service.dto.SearchBooksResult;
+import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
 import com.bombombom.devs.client.naver.NaverClient;
+import com.bombombom.devs.study.exception.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,14 @@ public class BookService {
     }
 
 
-    public Optional<Book> findBookByIsbn(Long isbn) {
-        return bookRepository.findByIsbn(isbn);
+    public BookResult findBookByIsbn(Long isbn) {
+        Book book = bookRepository.findByIsbn(isbn)
+            .orElseThrow(() -> new NotFoundException("Book Not Found"));
+
+        return SearchBooksResult.fromEntity(book);
+    }
+
+    public List<BookResult> findAllBookByIsbn(List<Long> isbns) {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.bombombom.devs.external.study.service.dto.result;
 
+import com.bombombom.devs.book.service.dto.SearchBooksResult.BookResult;
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
 import com.bombombom.devs.domain.study.model.AlgorithmStudy;
@@ -34,11 +35,12 @@ public interface StudyResult {
 
     UserProfileResult leader();
 
-    static StudyResult fromEntity(Study study) {
+    static StudyResult fromModel(Study study, UserProfileResult leaderProfile,
+        BookResult bookResult) {
         if (study instanceof AlgorithmStudy algorithmStudy) {
-            return AlgorithmStudyResult.fromModel(algorithmStudy);
+            return AlgorithmStudyResult.fromModel(algorithmStudy, leaderProfile);
         } else if (study instanceof BookStudy bookStudy) {
-            return BookStudyResult.fromModel(bookStudy);
+            return BookStudyResult.fromModel(bookStudy, leaderProfile, bookResult);
         } else {
             return null;
         }
