@@ -4,8 +4,8 @@ import com.bombombom.devs.common.Page;
 import com.bombombom.devs.common.Pageable;
 import com.bombombom.devs.domain.study.model.Study;
 import com.bombombom.devs.domain.study.repository.StudyRepository;
-import com.bombombom.devs.mysql.study.Mapper;
 import com.bombombom.devs.mysql.study.entity.Round;
+import com.bombombom.devs.mysql.study.entity.StudyEntity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +21,13 @@ public class StudyEntityRepository implements StudyRepository {
 
     @Override
     public Optional<Study> findStudyWithUsersById(Long id) {
-        return studyJpaRepository.findWithUsersById(id).map(Mapper::toModel);
+        return studyJpaRepository.findWithUsersById(id).map(StudyEntity::toModel);
     }
 
 
     @Override
     public Study save(Study study) {
-        return Mapper.toModel(studyJpaRepository.save(Mapper.toEntity(study)));
+        return studyJpaRepository.save(StudyEntity.fromModel(study)).toModel();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class StudyEntityRepository implements StudyRepository {
         PageRequest pageRequest = PageRequest.of(pageable.page(), pageable.size());
 
         org.springframework.data.domain.Page<Study> page
-            = studyJpaRepository.findAll(pageRequest).map(Mapper::toModel);
+            = studyJpaRepository.findAll(pageRequest).map(StudyEntity::toModel);
         return Page.<Study>builder()
             .pageNumber(page.getNumber())
             .totalPages(page.getTotalPages())
@@ -49,7 +49,7 @@ public class StudyEntityRepository implements StudyRepository {
     public List<Study> findStudyHavingRoundToStartWithUsers(LocalDate localDate) {
         List<Round> rounds = roundRepository.findRoundsWithStudyByStartDate(localDate);
 
-        return rounds.stream().map(Round::getStudy).map(Mapper::toModel).toList();
+        return rounds.stream().map(Round::getStudy).map(StudyEntity::toModel).toList();
 
 
     }

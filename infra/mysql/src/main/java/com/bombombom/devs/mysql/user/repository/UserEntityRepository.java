@@ -2,7 +2,7 @@ package com.bombombom.devs.mysql.user.repository;
 
 import com.bombombom.devs.domain.user.model.User;
 import com.bombombom.devs.domain.user.repository.UserRepository;
-import com.bombombom.devs.mysql.user.Mapper;
+import com.bombombom.devs.mysql.user.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,24 +12,24 @@ public class UserEntityRepository implements UserRepository {
 
     @Override
     public Optional<User> findById(Long id) {
-        return userJpaRepository.findById(id).map(Mapper::toModel);
+        return userJpaRepository.findById(id).map(UserEntity::toModel);
     }
 
     @Override
     public List<User> findAllById(Iterable<Long> ids) {
-        return userJpaRepository.findAllById(ids).stream().map(Mapper::toModel).toList();
-        
+        return userJpaRepository.findAllById(ids).stream().map(UserEntity::toModel).toList();
+
     }
 
     @Override
     public Optional<User> findUserByUsername(String username) {
 
-        return userJpaRepository.findUserByUsername(username).map(Mapper::toModel);
+        return userJpaRepository.findUserByUsername(username).map(UserEntity::toModel);
     }
 
     @Override
     public User save(User user) {
-        return Mapper.toModel(userJpaRepository.save(Mapper.toEntity(user)));
+        return userJpaRepository.save(UserEntity.fromModel(user)).toModel();
     }
 
     @Override

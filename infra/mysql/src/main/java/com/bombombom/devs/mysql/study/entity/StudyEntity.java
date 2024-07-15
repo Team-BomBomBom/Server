@@ -2,24 +2,21 @@ package com.bombombom.devs.mysql.study.entity;
 
 import com.bombombom.devs.domain.study.enums.StudyStatus;
 import com.bombombom.devs.domain.study.enums.StudyType;
+import com.bombombom.devs.domain.study.model.AlgorithmStudy;
+import com.bombombom.devs.domain.study.model.BookStudy;
+import com.bombombom.devs.domain.study.model.Study;
 import com.bombombom.devs.mysql.BaseEntity;
-import com.bombombom.devs.mysql.user.entity.UserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
@@ -57,11 +54,8 @@ public abstract class StudyEntity extends BaseEntity {
     @Column
     protected Integer weeks;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "leader_id",
-        nullable = false,
-        foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    private UserEntity leader;
+    @Column(nullable = false, name = "leader_id")
+    private Long leaderId;
 
     @Column(name = "start_date")
     protected LocalDate startDate;
@@ -83,5 +77,17 @@ public abstract class StudyEntity extends BaseEntity {
     protected List<Round> rounds;
 
     public abstract StudyType getStudyType();
-    
+
+
+    public abstract Study toModel();
+
+    public static StudyEntity fromModel(Study study) {
+        if (study instanceof BookStudy bookStudy) {
+            return BookStudyEntity.fromModel(bookStudy);
+        } else if (study instanceof AlgorithmStudy algorithmStudy) {
+            return AlgorithmStudyEntity.fromModel(algorithmStudy);
+        } else {
+            throw new IllegalStateException("Study Type is incorrect");
+        }
+    }
 }

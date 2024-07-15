@@ -1,11 +1,5 @@
 package com.bombombom.devs.external.study.controller;
 
-import static com.bombombom.devs.study.Constants.MAX_CAPACITY;
-import static com.bombombom.devs.study.Constants.MAX_DIFFICULTY_LEVEL;
-import static com.bombombom.devs.study.Constants.MAX_PENALTY;
-import static com.bombombom.devs.study.Constants.MAX_PROBLEM_COUNT;
-import static com.bombombom.devs.study.Constants.MAX_RELIABILITY_LIMIT;
-import static com.bombombom.devs.study.Constants.MAX_WEEKS;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;

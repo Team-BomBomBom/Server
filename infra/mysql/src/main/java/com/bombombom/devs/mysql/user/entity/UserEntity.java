@@ -1,6 +1,7 @@
 package com.bombombom.devs.mysql.user.entity;
 
 import com.bombombom.devs.domain.user.enums.Role;
+import com.bombombom.devs.domain.user.model.User;
 import com.bombombom.devs.mysql.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -50,5 +51,32 @@ public class UserEntity extends BaseEntity {
         }
         this.money -= money;
     }
-    
+
+    public User toModel() {
+        return User.builder()
+            .id(getId())
+            .username(getUsername())
+            .password(getPassword())
+            .money(getMoney())
+            .role(getRole())
+            .baekjoon(getBaekjoon())
+            .introduce(getIntroduce())
+            .image(getImage())
+            .reliability(getReliability())
+            .build();
+    }
+
+    public static UserEntity fromModel(User user) {
+        return UserEntity.builder()
+            .id(user.getId())
+            .username(user.getUsername())
+            .password(user.getPassword())
+            .money(user.getMoney())
+            .role(user.getRole())
+            .baekjoon(user.getBaekjoon())
+            .introduce(user.getIntroduce())
+            .image(user.getImage())
+            .reliability(user.getReliability())
+            .build();
+    }
 }
