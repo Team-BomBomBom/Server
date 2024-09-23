@@ -1,14 +1,16 @@
 name: Deploy to AWS ECS on Fargate
 
 on:
-  push:
+  pull_request:
     branches: [ "develop" ]
+    types:
+      - closed
   workflow_dispatch:
 
 jobs:
   deploy:
+    #    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-
     env:
       AWS_REGION: ap-northeast-2
       ECR_REPOSITORY: devs-spring-boot
@@ -19,12 +21,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Restore jar
         uses: actions/cache/restore@v4
         with:
           path: app/external-api/build/libs
-          key: ${{ runner.os }}-cached-jar-latest
+          key: ${{ runner.os }}-cached-jar-
           restore-keys: ${{ runner.os }}-cached-jar-
 
       - name: Configure AWS Credentials
