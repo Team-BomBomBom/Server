@@ -1,6 +1,7 @@
 # 공통 설정
 server:
   port: ${PORT}
+
 spring:
   profiles:
     default: local
@@ -24,6 +25,16 @@ spring:
         expire-length: ${ACCESS_TOKEN_EXPIRE}
       refresh-token:
         expire-length: ${REFRESH_TOKEN_EXPIRE}
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      s3:
+        bucket: ${AWS_S3_BUCKET}
+
 naver:
   url:
     search:
