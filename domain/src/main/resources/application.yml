@@ -16,6 +16,10 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  data:
+    redis:
+      repositories:
+        enabled: false
   security:
     front-server-origin: ${FRONT_SERVER_ORIGIN}
     jwt:
@@ -24,6 +28,18 @@ spring:
         expire-length: ${ACCESS_TOKEN_EXPIRE}
       refresh-token:
         expire-length: ${REFRESH_TOKEN_EXPIRE}
+resilience4j:
+  circuitbreaker:
+    failure-rate-threshold: 10
+    slow-call-duration-threshold: 500
+    slow-call-rate-threshold: 10
+    wait-duration-in-open-state: 30000
+    minimum-number-of-calls: 50
+    sliding-window-size: 100
+    permitted-number-of-calls-in-half-open-state: 30
+  retry:
+    wait-duration: 100
+    max-attempts: 2
 naver:
   url:
     search:
@@ -35,7 +51,6 @@ naver:
 # 로컬 프로파일 설정
 ---
 spring:
-
   config:
     activate:
       on-profile: local
@@ -50,6 +65,11 @@ spring:
         format_sql: true
   elasticsearch:
     uris: ${ELASTICSEARCH_URI}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 logging.level:
   tracer:
     TRACE
@@ -78,6 +98,10 @@ spring:
       mode: always
   elasticsearch:
     uris: ${TEST_ELASTICSEARCH_URI}
+  data:
+    redis:
+      host: ${TEST_REDIS_HOST}
+      port: ${TEST_REDIS_PORT}
 logging.level:
   tracer:
     TRACE
