@@ -37,10 +37,7 @@ public class User extends BaseEntity {
 
     private String image;
     private String introduce;
-
-    @Column(unique = true)
     private String baekjoon;
-
     private Integer reliability;
     private Integer money;
 
