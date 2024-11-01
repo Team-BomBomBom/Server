@@ -16,4 +16,6 @@ findProject(':support:solvedac-client')?.name = 'solvedac-client'
 include 'infra'
 include 'infra:s3'
 findProject(':infra:s3')?.name = 's3'
+include 'infra:cloudfront'
+findProject(':infra:cloudfront')?.name = 'cloudfront'
 
