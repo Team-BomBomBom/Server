@@ -1,10 +1,19 @@
+ext {
+    springCloudAwsVersion = '3.1.1'
+}
+
 subprojects {
+
+
     dependencies {
         compileOnly 'org.springframework:spring-context'
+
         implementation project(':core')
 
+        implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:${springCloudAwsVersion}")
+        implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+
         testImplementation platform('org.junit:junit-bom:5.9.1')
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.assertj:assertj-core:3.11.1'
         testImplementation 'com.squareup.okhttp3:mockwebserver'
     }

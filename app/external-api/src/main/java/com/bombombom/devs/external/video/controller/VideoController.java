@@ -1,11 +1,14 @@
 package com.bombombom.devs.external.video.controller;
 
+import com.bombombom.devs.CloudFrontClient;
 import com.bombombom.devs.S3MultipartUploadClient;
 import com.bombombom.devs.dto.FinishMultipartUploadResponse;
 import com.bombombom.devs.dto.GeneratePresignedUrlResponse;
 import com.bombombom.devs.dto.InitiateMultipartUploadResponse;
+import com.bombombom.devs.dto.SignedCookies;
 import com.bombombom.devs.external.video.controller.dto.CompleteVideoUploadRequest;
 import com.bombombom.devs.external.video.controller.dto.CompleteVideoUploadResponse;
+import com.bombombom.devs.external.video.controller.dto.GenerateSignedUrlRequest;
 import com.bombombom.devs.external.video.controller.dto.GenerateUploadUrlRequest;
 import com.bombombom.devs.external.video.controller.dto.GenerateUploadUrlResponse;
 import com.bombombom.devs.external.video.controller.dto.InitiateUploadRequest;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VideoController {
 
     private final S3MultipartUploadClient s3MultipartUploadClient;
+    private final CloudFrontClient cloudFrontClient;
 
     @PostMapping("/initiate-upload")
     public ResponseEntity<InitiateUploadResponse> initiateUpload(
@@ -40,6 +44,16 @@ public class VideoController {
         GeneratePresignedUrlResponse response = s3MultipartUploadClient.generatePresignedUrl(
             request.toS3ClientDto());
         return ResponseEntity.ok().body(GenerateUploadUrlResponse.fromS3ClientResponse(response));
+    }
+
+
+    @PostMapping("/signed-url")
+    public ResponseEntity<SignedCookies> getSignedUrl(
+        @RequestBody GenerateSignedUrlRequest request) {
+
+        return ResponseEntity.ok()
+            .body(cloudFrontClient.getSignedCookies(
+                request.videoId()));
     }
 
     @PostMapping("/complete-upload")

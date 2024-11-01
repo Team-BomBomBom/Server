@@ -39,6 +39,12 @@ spring:
         secret-key: ${AWS_SECRET_KEY}
       s3:
         bucket: ${AWS_S3_BUCKET}
+      cloudfront:
+        key-pair-id: ${KEY_PAIR_ID}
+        base-url: ${CLOUD_FRONT_URL}
+        secret: ${CLOUD_FRONT_SECRET}
+        expire: 3600
+
 
 resilience4j:
   circuitbreaker:
