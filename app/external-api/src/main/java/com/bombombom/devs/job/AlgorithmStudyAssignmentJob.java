@@ -2,7 +2,6 @@ package com.bombombom.devs.job;
 
 import com.bombombom.devs.algo.model.vo.AlgorithmProblemQueueMessage;
 import com.bombombom.devs.external.algo.service.AlgorithmProblemQueueService;
-import com.bombombom.devs.external.algo.service.dto.command.AssignAlgorithmProblemCommand;
 import com.bombombom.devs.external.algo.service.dto.command.UpdateAlgorithmTaskStatusCommand;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,8 +86,8 @@ public class AlgorithmStudyAssignmentJob implements Job {
     private void executeMessage(AlgorithmProblemQueueMessage message)
         throws JsonProcessingException {
         switch (message.requestType()) {
-            case ASSIGN -> algorithmProblemQueueService.assignProblems(
-                AssignAlgorithmProblemCommand.fromMessage(message, objectMapper));
+//            case ASSIGN -> algorithmProblemQueueService.assignProblems(
+//                AssignAlgorithmProblemCommand.fromMessage(message, objectMapper));
             case UPDATE -> algorithmProblemQueueService.updateTaskStatus(
                 UpdateAlgorithmTaskStatusCommand.fromMessage(message, objectMapper));
         }

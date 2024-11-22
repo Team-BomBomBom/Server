@@ -148,7 +148,7 @@ public class AlgorithmProblemQueueService {
     }
 
     @Transactional
-    public void assignProblems(AssignAlgorithmProblemCommand command) {
+    public void assignProblems(AssignAlgorithmProblem command) {
         try {
             Round round = roundRepository.findById(command.roundId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.ROUND_NOT_FOUND));
@@ -160,9 +160,9 @@ public class AlgorithmProblemQueueService {
             List<AlgorithmProblem> foundOrSavedProblems = algorithmProblemService.findProblemsThenSaveWhenNotExist(
                 problems);
             assignProblemToRound(round, foundOrSavedProblems);
-            algorithmProblemRedisQueueRepository.ackMessage(command.recordId());
+//            algorithmProblemRedisQueueRepository.ackMessage(command.recordId());
         } catch (NotFoundException e) {
-            algorithmProblemRedisQueueRepository.ackMessage(command.recordId());
+//            algorithmProblemRedisQueueRepository.ackMessage(command.recordId());
         }
     }
 

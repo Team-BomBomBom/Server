@@ -15,9 +15,7 @@ public class RSA {
             .replace("-----BEGIN PRIVATE KEY-----", "")
             .replace("-----END PRIVATE KEY-----", "")
             .replaceAll("\\s", "");
-        System.out.println("privateKey = " + privateKey);
         byte[] encoded = Base64.getDecoder().decode(privateKey);
-
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
         return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);

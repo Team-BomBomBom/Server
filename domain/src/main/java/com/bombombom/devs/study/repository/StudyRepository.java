@@ -37,7 +37,7 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
     Optional<Study> findWithRoundsById(Long id);
 
     @NonNull
-    @Query(value = "SELECT s.id FROM Study s ",
+    @Query(value = "SELECT s.id FROM Study s",
         countQuery = "SELECT COUNT(s) FROM Study s")
     Page<Long> findIdsAll(@NonNull Pageable pageable);
 
@@ -54,7 +54,8 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
         + "LEFT JOIN FETCH s.leader "
         + "LEFT JOIN FETCH TREAT(s as AlgorithmStudy).difficulties "
         + "LEFT JOIN FETCH TREAT(s as BookStudy).book "
-        + "WHERE s.id IN :ids")
+        + "WHERE s.id IN :ids "
+        + "ORDER BY s.id DESC")
     List<Study> findWithDifficultiesAndLeaderAndBookByIds(List<Long> ids);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

@@ -101,7 +101,6 @@ public class StudyController {
     @GetMapping
     public ResponseEntity<StudyPageResponse> studyList(
         @PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable) {
-
         Page<StudyResponse> studyPage = studyService.readStudy(pageable)
             .map(StudyResponse::fromResult);
 

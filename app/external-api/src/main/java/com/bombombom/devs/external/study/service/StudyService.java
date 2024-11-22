@@ -4,6 +4,7 @@ import com.bombombom.devs.core.exception.BusinessRuleException;
 import com.bombombom.devs.core.exception.ErrorCode;
 import com.bombombom.devs.core.exception.NotFoundException;
 import com.bombombom.devs.core.util.Clock;
+import com.bombombom.devs.external.points.service.PointsService;
 import com.bombombom.devs.external.study.service.dto.command.ConfigureStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.JoinStudyCommand;
 import com.bombombom.devs.external.study.service.dto.command.StartStudyCommand;
@@ -33,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudyService {
 
     private final Clock clock;
+    private final PointsService pointsService;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
     private final UserStudyRepository userStudyRepository;
@@ -42,12 +44,13 @@ public class StudyService {
 
     @Transactional(readOnly = true)
     public Page<StudyResult> readStudy(Pageable pageable) {
+        
         Page<Long> studyPage = studyRepository.findIdsAll(pageable);
 
         List<Study> studies = studyRepository.findWithDifficultiesAndLeaderAndBookByIds(
             studyPage.getContent());
         AtomicInteger index = new AtomicInteger();
-        
+
         return studyPage.map(i -> studies.get(index.getAndIncrement()))
             .map(StudyResult::fromEntity);
 
@@ -67,7 +70,7 @@ public class StudyService {
 
         study.admit(user);
 
-        user.payMoney(study.calculateDeposit());
+        pointsService.payStudyDeposit(study, user);
     }
 
 

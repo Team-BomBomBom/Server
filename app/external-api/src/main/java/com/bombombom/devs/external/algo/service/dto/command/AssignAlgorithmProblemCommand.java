@@ -26,7 +26,7 @@ public record AssignAlgorithmProblemCommand(
         AssignAlgorithmProblem assignAlgorithmProblem = objectMapper.readValue(
             message.fields(), AssignAlgorithmProblem.class);
         return AssignAlgorithmProblemCommand.builder()
-            .recordId(message.recordId())
+//            .recordId(message.recordId())
             .requestTime(message.requestTime())
             .roundId(assignAlgorithmProblem.roundId())
             .baekjoonIds(assignAlgorithmProblem.baekjoonIds())
